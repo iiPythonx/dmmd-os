@@ -59,96 +59,39 @@ function create_application(title, icon, content) {
     root.innerHTML = content;
 
     document.querySelector("main").appendChild(app);
+    document.getElementById("start").classList.add("hidden");
 }
 
-// Start menu structure
-const start_menu_struct = [
-    {
-        name: "Programs",
-        icon: "{% include 'icons/programs.ico' %}",
-        exec: [
-            {
-                name: "Notepad",
-                icon: "",
-                exec: "notepad"
-            },
-            {
-                name: "Calculator",
-                icon: "",
-                exec: "calc"
-            },
-            {
-                name: "Games",
-                icon: "",
-                exec: [
-                    {
-                        name: "Minesweeper",
-                        icon: "",
-                        exec: "minesweeper"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        name: "Favorites",
-        icon: "{% include 'icons/favorites.ico' %}",
-        exec: "favorites"
-    },
-    {
-        name: "Documents",
-        icon: "{% include 'icons/documents.ico' %}",
-        exec: "documents"
-    },
-    {
-        name: "Settings",
-        icon: "{% include 'icons/settings.ico' %}",
-        exec: [
-            {
-                name: "Control Panel",
-                icon: ""
-            },
-            {
-                name: "Taskbar & Start Menu...",
-                icon: ""
-            }
-        ]
-    },
-    {
-        name: "Find",
-        icon: "{% include 'icons/find.ico' %}",
-        exec: "find"
-    },
-    {
-        name: "Help",
-        icon: "{% include 'icons/help.ico' %}",
-        exec: "help"
-    },
-    {
-        name: "Run",
-        icon: "{% include 'icons/run.ico' %}",
-        exec: "run"
-    }
-];
-
-create_application(
-    "Untitled - Notepad",
-    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAFVBMVEUAAAAAgIAA//+AgIDAwMAAAAD///8J9+zXAAAAAXRSTlMAQObYZgAAAAFiS0dEBmFmuH0AAAAHdElNRQfiBhoALTAhTzgxAAAAX0lEQVQI1y2NwQ2AMAzEglgAkDoAVdmABYga3jwaRuj+I+C2+GXdXRQRmVYQ2E5YmqhqCjQJLkcOdzWjaUmwMcnFxmR/kUhiav/ktj7RQtIflMqVQ46IzBW6ZGjSy+cDW4gWFTJLDN4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMDYtMjZUMDA6NDU6NDgtMDQ6MDBhJQfuAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTA2LTI2VDAwOjQ1OjQ4LTA0OjAwEHi/UgAAAABJRU5ErkJggg==",
-    `
-        <style>
-            textarea {
-                width: calc(100% - 4px);
-                height: 100%;
-                color: black;
-                border: none;
-                resize: none;
-                overflow: auto;
-                outline: none;
-            }
-        </style>
-        <textarea>The quick brown iiPython jumps over the lazy DmmD.</textarea>
-    `
-);
+function build_menu(structure, parent) {
+    for (const item of structure) {
+        if (item.type === "space") {
+            parent.appendChild(document.createElement("hr"));
+            continue;
+        }
+    
+        const button = document.createElement("button");
+        button.innerHTML = `<img src = "${item.icon}"> ${item.name}`;
+        parent.appendChild(button);
+    
+        if (item.exec.constructor === Array) {
+            var active = false;
+            button.addEventListener("mouseleave", () => {
+                const child_list = button.querySelector("div");
+                if (child_list) child_list.remove();
+                active = false;
+            });
+            button.addEventListener("mouseover", () => {
+                if (active) return;
+                active = true;
+                const child_list = document.createElement("div");
+                build_menu(item.exec, child_list);
+                button.appendChild(child_list);
+            });
+        } else {
+            button.addEventListener("click", () => launch_executable(item.exec));
+        }
+    };
+}
 
 // Connect start menu
 document.querySelector("footer > button").addEventListener("click", () => {
