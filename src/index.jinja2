@@ -10,7 +10,33 @@
         <title>iiPython OS</title>
     </head>
     <body>
-        <p>Hello world!</p>
+        <main></main>
+        <footer>
+            <div id = "start" class = "hidden">
+                <div>
+                    <span>iiPython OS</span>
+                </div>
+                <div>
+                    <button><img src = "{% include 'icons/programs.ico' %}"> Programs</button>
+                    <button><img src = "{% include 'icons/favorites.ico' %}"> Favorites</button>
+                    <button><img src = "{% include 'icons/documents.ico' %}"> Documents</button>
+                    <button><img src = "{% include 'icons/settings.ico' %}"> Settings</button>
+                    <button><img src = "{% include 'icons/find.ico' %}"> Find</button>
+                    <button><img src = "{% include 'icons/help.ico' %}"> Help</button>
+                    <button><img src = "{% include 'icons/run.ico' %}"> Run</button>
+                    <hr>
+                    <button><img src = "{% include 'icons/shutdown.ico' %}"> Back to Bootloader...</button>
+                </div>
+            </div>
+            <button>
+                <img src = "{% include 'icons/start.ico' %}">
+                Start
+            </button>
+            <div class = "vertical-space"></div>
+            <div id = "tasklets"></div>
+            <div class = "vertical-space"></div>
+            <span id = "clock"></span>
+        </footer>
 
         <!-- JS -->
         <script>{% include "js/boot.js" %}</script>
