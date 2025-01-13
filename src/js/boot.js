@@ -6,6 +6,9 @@ function uuid() {
         (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
 }
+function kill_app(id) {
+    for (const i of document.querySelectorAll(`[window-id = "${id}"]`)) i.remove();
+}
 function create_application(title, icon, content) {
     const id = uuid();
 
@@ -35,10 +38,7 @@ function create_application(title, icon, content) {
         tasklet.classList.toggle("active");
         app.classList.toggle("hidden");
     });
-    app.querySelector("button:last-child").addEventListener("click", () => {
-        app.remove();
-        tasklet.remove();
-    });
+    app.querySelector("button:last-child").addEventListener("click", () => kill_app(id));
 
     app.querySelector("header").addEventListener("mousedown", (e) => {
         const offsetX = e.clientX - parseInt(window.getComputedStyle(app).left);
@@ -60,37 +60,6 @@ function create_application(title, icon, content) {
 
     document.querySelector("main").appendChild(app);
     document.getElementById("start").classList.add("hidden");
-}
-
-function build_menu(structure, parent) {
-    for (const item of structure) {
-        if (item.type === "space") {
-            parent.appendChild(document.createElement("hr"));
-            continue;
-        }
-    
-        const button = document.createElement("button");
-        button.innerHTML = `<img src = "${item.icon}"> ${item.name}`;
-        parent.appendChild(button);
-    
-        if (item.exec.constructor === Array) {
-            var active = false;
-            button.addEventListener("mouseleave", () => {
-                const child_list = button.querySelector("div");
-                if (child_list) child_list.remove();
-                active = false;
-            });
-            button.addEventListener("mouseover", () => {
-                if (active) return;
-                active = true;
-                const child_list = document.createElement("div");
-                build_menu(item.exec, child_list);
-                button.appendChild(child_list);
-            });
-        } else {
-            button.addEventListener("click", () => launch_executable(item.exec));
-        }
-    };
 }
 
 // Connect start menu

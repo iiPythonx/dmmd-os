@@ -1,0 +1,68 @@
+! Welcome!
+! data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAIVBMVEUAAACAgID////AwMAAAACAgAD//wAAAIAAAP8A/wAAgADV9gmjAAAAAXRSTlMAQObYZgAAAAFiS0dEAmYLfGQAAAAHdElNRQfiBBMBJCzihqnqAAAA1klEQVQoz62RPRKCMBBGwwz2buQCECc9gxZagW7UUhnWXgWv4BGk9whe1PwIhMLO1+XNt192EsYYC4CN4SL3j5PjDPKTJ8qGp0p6GZVw2DSDIIp5WtwQLGaivHBQUm4zTayDiiTitqZNogEjqlJe7xXZhBHhrqalErZDGMHOiuYNoWbfCVUhHdq2fToR5mEdYzsIrTA+jAQL/iIelkEkDgHF1InsSwQLF8EvxSyyZ+hJI7/CPIgTouvIPJGaiV6sXtnClPZi/e5G7GbBcEs0XgNx9Mk/+ABKmUrJPj0QuwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOC0wNC0xOVQwMTozNjo0NC0wNDowMBDbINAAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTgtMDQtMTlUMDE6MzY6NDQtMDQ6MDBhhphsAAAAAElFTkSuQmCC
+! Welcome to iiPython OS
+
+<!-- Styling -->
+<style>
+    * {
+        font-family: monospace;
+        margin: 0px;
+        color: black;
+    }
+    div.content {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    button {
+        cursor: pointer;
+        padding-left: 5px;
+        padding-right: 5px;
+        background-color: #c1c1c1;
+        border-width: 2px;
+        border-style: solid;
+        border-color: white black black white;
+    }
+    button:active {
+        background-color: #e2e2e2;
+        border-color: black white white black;
+    }
+    .button-list {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        gap: 5px;
+    }
+</style>
+
+<!-- Actual content! -->
+<div class = "content">
+    <p>
+        Hello, and welcome to iiPython OS! <br>
+        This wizard will help you setup and configure the base operating system.
+    </p>
+    <br>
+    <fieldset>
+        <legend>To begin, select a storage backend:</legend>
+        <div>
+            <input type = "radio" value = "indexed" id = "indexed" disabled />
+            <label for = "indexed">IndexedDB</label>
+        </div>
+        <div>
+            <input type = "radio" value = "local" id = "local" checked />
+            <label for = "local">LocalStorage</label>
+        </div>
+    </fieldset>
+    <div class = "button-list">
+        <button>Cancel</button>
+        <button>OK</button>
+    </div>
+</div>
+
+<!-- JS -->
+<script>
+    console.log(document.querySelector("button"));
+    console.log(window);
+</script>

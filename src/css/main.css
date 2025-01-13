@@ -19,13 +19,9 @@ main {
     position: relative;
 }
 main > article {
-    left: 500px;
-    top: 500px;
     position: absolute;
 
     /* Window styling */
-    width: 400px;
-    height: 200px;
     background-color: #c0c0c0;
     border-width: 2px;
     border-style: solid;
@@ -41,6 +37,7 @@ main > article header {
     display: flex;
     align-items: center;
     gap: 1px;
+    user-select: none;
     background: linear-gradient(to right, #1a0495, #1380d5);
 }
 main > article header img {
