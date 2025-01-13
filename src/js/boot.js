@@ -8,6 +8,14 @@ function uuid() {
         (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
 }
+function focus(id) {
+    for (const tasklet of document.querySelectorAll("button[window-id]")) {
+        tasklet.classList.remove("active");
+        document.querySelector(`article[window-id = "${tasklet.getAttribute('window-id')}"]`).style.zIndex = "4";
+    }
+    document.querySelector(`article[window-id = "${id}"]`).style.zIndex = "5";
+    document.querySelector(`button[window-id = "${id}"]`).classList.add("active");
+}
 function kill_app(id) {
     for (const i of document.querySelectorAll(`[window-id = "${id}"]`)) i.remove();
     if (window.roots[id]) delete window.roots[id];
@@ -33,15 +41,29 @@ function create_application(title, icon, content, size) {
     }
 
     // Create tasklet
+    app.style.zIndex = "5";
+    for (const tasklet of document.querySelectorAll("button[window-id]")) {
+        tasklet.classList.remove("active");
+        document.querySelector(`article[window-id = "${tasklet.getAttribute('window-id')}"]`).style.zIndex = "4";
+    }
+
     const tasklet = document.createElement("button");
     tasklet.classList.add("active");
     tasklet.innerHTML = `<img src = "${icon}"> ${title}`;
     tasklet.setAttribute("window-id", id);
     tasklet.addEventListener("click", () => {
+        if (app.classList.contains("hidden")) {
+            app.classList.remove("hidden");
+            return focus(id);
+        }
+        if (app.style.zIndex === "4") return focus(id);
         tasklet.classList.toggle("active");
         app.classList.toggle("hidden");
     });
     document.getElementById("tasklets").appendChild(tasklet);
+
+    // Bring us to focus
+    app.addEventListener("click", () => focus(id));
 
     // Minimize and close
     app.querySelector("button").addEventListener("click", () => {
