@@ -15,6 +15,10 @@
         flex-direction: column;
         gap: 5px;
     }
+    span {
+        color: gray;
+        font-size: 10px;
+    }
     .button-list {
         width: 100%;
         display: flex;
@@ -34,22 +38,30 @@
     <fieldset>
         <legend>To begin, select a storage backend:</legend>
         <div>
-            <input type = "radio" value = "indexed" id = "indexed" disabled />
-            <label for = "indexed">IndexedDB</label>
+            <input type = "radio" name = "backend" value = "indexed" id = "indexed" checked />
+            <label for = "indexed">IndexedDB <span>(more space)</span></label>
         </div>
         <div>
-            <input type = "radio" value = "local" id = "local" checked />
-            <label for = "local">LocalStorage</label>
+            <input type = "radio" name = "backend" value = "local" id = "local" />
+            <label for = "local">LocalStorage <span>(less space, more reliable)</span></label>
         </div>
+        <br>
+        <legend>If you're using DmmD's bootloader, select LocalStorage.</legend>
     </fieldset>
     <div class = "button-list">
-        <button>Cancel</button>
-        <button>OK</button>
+        <button id = "cancel">Cancel</button>
+        <button id = "ok">OK</button>
     </div>
 </main>
 
 <!-- JS -->
-<script>
-    console.log(document.querySelector("button"));
-    console.log(window);
-</script>
+<script>(() => {
+    const dom = roots["%OS_ROOT"];
+    if (!db.use_indexed) dom.getElementById("local").checked = true;
+    dom.getElementById("cancel").addEventListener("click", () => kill_app("%OS_ROOT"));
+    dom.getElementById("ok").addEventListener("click", () => {
+        db.set_backend(dom.getElementById("indexed").checked ? "indexeddb" : "localstorage");
+        kill_app("%OS_ROOT");
+        exe.launch("sys/settings/reload");
+    });
+})();</script>

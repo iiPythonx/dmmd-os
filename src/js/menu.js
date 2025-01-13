@@ -14,7 +14,10 @@ class ExecutableHandler {
             this.executables = await (await fetch("https://os.iipython.dev/apps.json")).json();
 
             // Handle first boot (if loading was successful)
-            if (!+localStorage.getItem("core.first_boot")) exe.launch("sys/firstboot");
+            if (!+(await db.get("core.first_boot"))) {
+                exe.launch("sys/firstboot");
+                db.set("core.first_boot", 1);
+            }
         } catch {
             create_application("Connection problem", ERROR_ICON, `<p style = "margin: 10px;">Failed to download apps from upstream.</p>`);
         }
@@ -90,7 +93,9 @@ const start_menu_struct = [
                 exec: [
                     exe.find("games/minesweeper")
                 ]
-            }
+            },
+            exe.find("sys/cmd"),
+            exe.find("cooldude")
         ]
     },
     exe.find("menu/favorites"),
@@ -100,7 +105,9 @@ const start_menu_struct = [
         icon: "{% include 'icons/settings.ico' %}",
         exec: [
             exe.find("sys/firstboot"),
-            exe.find("sys/cmd")
+            exe.find("sys/settings/main"),
+            exe.find("sys/settings/menu"),
+            exe.find("sys/settings/sources"),
         ]
     },
     exe.find("menu/find"),
