@@ -5,18 +5,79 @@
 
 <!-- Styling -->
 <style>
+    * {
+        color: white !important;
+    }
     div {
         height: 100%;
-        color: white;
         background-color: black;
+        overflow-y: scroll;
+        scrollbar-width: none;
 
         /* This looks better since it allows you to see the dropshadow seperately. */
         width: calc(100% - 2px);
         height: calc(100% + 3px);
     }
+    div::-webkit-scrollbar {
+        display: none;
+    }
+    #terminal {
+        display: flex;
+        flex-direction: column;
+    }
+    #prompt {
+        display: flex;
+    }
+    pre {
+        margin: 0px;
+    }
 </style>
 
 <!-- Terminal base -->
-<div>
-    <span>> hello</span>
+<div tabindex = "0" id = "terminal">
+    <span id = "prompt">
+        <pre>$ > </pre>
+        <pre class = "text"></pre>
+        <span>_</span>
+    </span>
 </div>
+<script>(() => {
+    const dom = roots["%OS_ROOT"];
+    const main = document.querySelector(`article[window-id = "%OS_ROOT"]`);
+
+    // Commands
+    const commands = {
+        help: (args) => {
+            push_line("Help? As if I would help you.");
+        }
+    }
+
+    // Focus on us
+    const terminal_div = dom.querySelector("div");
+    terminal_div.focus();
+
+    // Handle adding lines
+    function push_line(line) {
+        const element = document.createElement("span");
+        element.innerText = line;
+        dom.getElementById("prompt").before(element);
+        terminal_div.scrollTop = terminal_div.scrollHeight;
+    }
+
+    // Handle keypresses
+    const prompt = dom.querySelector("#prompt > pre.text");
+    window.addEventListener("keydown", (e) => {
+        if (e.target.parentElement.getAttribute("window-id") !== "%OS_ROOT") return;  // Check if we're the focused window
+        if (e.key === "Backspace") prompt.innerText = prompt.innerText.slice(0, -1);
+        if (e.key.length === 1) prompt.innerText += e.key;
+        if (e.key === "Enter") {
+            push_line(`$ > ${prompt.innerText}`);
+            if (prompt.innerText) {
+                const args = prompt.innerText.split(" ");
+                if (!commands[args[0]]) push_line(`Unknown command: ${args[0]}`);
+                else commands[args[0]](args.slice(1));
+            }
+            prompt.innerText = "";
+        }
+    });
+})();</script>

@@ -68,9 +68,10 @@ function create_application(title, icon, content, size) {
     });
 
     // Minimize and close
-    app.querySelector("button").addEventListener("click", (e) => {
+    app.querySelector("button").addEventListener("click", () => {
         tasklet.classList.remove("active");
         app.classList.toggle("hidden");
+        if (app.classList.contains("hidden")) app.style.zIndex = "4";
     });
     app.querySelector("button:last-child").addEventListener("click", () => kill_app(id));
 
