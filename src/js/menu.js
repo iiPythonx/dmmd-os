@@ -12,6 +12,9 @@ class ExecutableHandler {
     async load_executables() {
         try {
             this.executables = await (await fetch("https://os.iipython.dev/apps.json")).json();
+
+            // Handle first boot (if loading was successful)
+            if (!+localStorage.getItem("core.first_boot")) exe.launch("sys/firstboot");
         } catch {
             create_application("Connection problem", ERROR_ICON, `<p style = "margin: 10px;">Failed to download apps from upstream.</p>`);
         }
@@ -111,6 +114,3 @@ const start_menu_struct = [
     }
 ];
 build_menu(start_menu_struct, document.getElementById("menu-entries"));
-
-// Handle first boot
-if (!+localStorage.getItem("core.first_boot")) exe.launch("sys/firstboot");

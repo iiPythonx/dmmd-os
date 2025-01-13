@@ -63,11 +63,13 @@ function create_application(title, icon, content, size) {
     document.getElementById("tasklets").appendChild(tasklet);
 
     // Bring us to focus
-    app.addEventListener("click", () => focus(id));
+    app.addEventListener("click", () => {
+        if (!app.classList.contains("hidden") && document.contains(app)) focus(id);
+    });
 
     // Minimize and close
-    app.querySelector("button").addEventListener("click", () => {
-        tasklet.classList.toggle("active");
+    app.querySelector("button").addEventListener("click", (e) => {
+        tasklet.classList.remove("active");
         app.classList.toggle("hidden");
     });
     app.querySelector("button:last-child").addEventListener("click", () => kill_app(id));
