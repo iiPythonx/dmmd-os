@@ -9,7 +9,7 @@ function uuid() {
 function kill_app(id) {
     for (const i of document.querySelectorAll(`[window-id = "${id}"]`)) i.remove();
 }
-function create_application(title, icon, content) {
+function create_application(title, icon, content, size) {
     const id = uuid();
 
     const app = document.createElement("article");
@@ -23,6 +23,11 @@ function create_application(title, icon, content) {
         <div></div>
     `;
     app.setAttribute("window-id", id);
+
+    if (size) {
+        const [x, y] = size.split("x");
+        app.style.width = `${x}px`, app.style.height = `${y}px`;
+    }
 
     const tasklet = document.createElement("button");
     tasklet.classList.add("active");

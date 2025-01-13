@@ -15,7 +15,7 @@ class ExecutableHandler {
     launch(name) {
         const exe = this.executables[name];
         if (!exe) return console.error("Attempted to launch a non-existant executable:", name);
-        create_application(exe.title, exe.icon, exe.html);
+        create_application(exe.title, exe.icon, exe.html, exe.size);
     }
 
     find(name) {
@@ -77,13 +77,13 @@ const start_menu_struct = [
                 name: "Games",
                 icon: FOLDER_ICON,
                 exec: [
-                    exe.find("minesweeper")
+                    exe.find("games/minesweeper")
                 ]
             }
         ]
     },
-    exe.find("favorites"),
-    exe.find("documents"),
+    exe.find("menu/favorites"),
+    exe.find("menu/documents"),
     {
         name: "Settings",
         icon: "{% include 'icons/settings.ico' %}",
@@ -92,9 +92,9 @@ const start_menu_struct = [
             exe.find("sys/cmd")
         ]
     },
-    exe.find("find"),
-    exe.find("help"),
-    exe.find("run"),
+    exe.find("menu/find"),
+    exe.find("menu/help"),
+    exe.find("menu/run"),
     { type: "space" },
     {
         name: "Back to Bootloader...",
