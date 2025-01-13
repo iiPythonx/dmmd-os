@@ -1,6 +1,8 @@
 // Copyright (c) 2025 iiPython
 
 // Handle application creation
+window.roots = {};
+
 function uuid() {
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
         (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
@@ -8,6 +10,7 @@ function uuid() {
 }
 function kill_app(id) {
     for (const i of document.querySelectorAll(`[window-id = "${id}"]`)) i.remove();
+    if (window.roots[id]) delete window.roots[id];
 }
 function create_application(title, icon, content, size) {
     const id = uuid();
@@ -29,6 +32,7 @@ function create_application(title, icon, content, size) {
         app.style.width = `${x}px`, app.style.height = `${y}px`;
     }
 
+    // Create tasklet
     const tasklet = document.createElement("button");
     tasklet.classList.add("active");
     tasklet.innerHTML = `<img src = "${icon}"> ${title}`;
@@ -39,12 +43,14 @@ function create_application(title, icon, content, size) {
     });
     document.getElementById("tasklets").appendChild(tasklet);
 
+    // Minimize and close
     app.querySelector("button").addEventListener("click", () => {
         tasklet.classList.toggle("active");
         app.classList.toggle("hidden");
     });
     app.querySelector("button:last-child").addEventListener("click", () => kill_app(id));
 
+    // Handle dragging
     app.querySelector("header").addEventListener("mousedown", (e) => {
         const offsetX = e.clientX - parseInt(window.getComputedStyle(app).left);
         const offsetY = e.clientY - parseInt(window.getComputedStyle(app).top);
@@ -60,11 +66,31 @@ function create_application(title, icon, content, size) {
         window.addEventListener("mouseup", reset);
     });
 
+    // Create shadow DOM
     const root = app.querySelector("div").attachShadow({ mode: "open" });
     root.innerHTML = content;
+    window.roots[id] = root;
 
+    // Insert shared app CSS
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`{% include 'css/apps.css' %}`);
+    root.adoptedStyleSheets = [sheet];
+
+    // Append to desktop
     document.querySelector("main").appendChild(app);
     document.getElementById("start").classList.add("hidden");
+
+    // Load JS
+    for (const script of root.querySelectorAll("script")) {
+        const new_script = document.createElement("script");
+        new_script.textContent = script.textContent.replace(/\%OS_ROOT/g, id);
+        script.remove();
+        root.appendChild(new_script);
+    }
+
+    // Position it in the center
+    app.style.top = `calc(50% - (${window.getComputedStyle(app).height} / 2))`;
+    app.style.left = `calc(50% - (${window.getComputedStyle(app).width} / 2))`;
 }
 
 // Connect start menu

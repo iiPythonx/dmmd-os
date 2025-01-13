@@ -2,6 +2,7 @@
 
 // Some basic icons
 const FOLDER_ICON = "{% include 'icons/folder.ico' %}";
+const ERROR_ICON = "{% include 'icons/error.ico' %}";
 
 class ExecutableHandler {
     constructor() {
@@ -13,9 +14,12 @@ class ExecutableHandler {
     }
 
     launch(name) {
-        const exe = this.executables[name];
-        if (!exe) return console.error("Attempted to launch a non-existant executable:", name);
-        create_application(exe.title, exe.icon, exe.html, exe.size);
+        const exec = this.executables[name];
+        if (!exec) {
+            console.error("Attempted to launch a non-existant executable:", name);
+            return create_application("Not found", ERROR_ICON, `<p style = "margin: 10px;">The specified executable doesn't exist.</p>`);
+        }
+        create_application(exec.title, exec.icon, exec.html, exec.size);
     }
 
     find(name) {
@@ -31,7 +35,7 @@ class ExecutableHandler {
     }
 }
 
-const exe = new ExecutableHandler();
+window.exe = new ExecutableHandler();
 await exe.load_executables();
 
 // Start menu structure

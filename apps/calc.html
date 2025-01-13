@@ -2,4 +2,101 @@
 ! icon:  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAFVBMVEUAAAAAgID///8A//8AAIAAAADAwMBYHoY3AAAAAXRSTlMAQObYZgAAAAFiS0dEAmYLfGQAAAAHdElNRQfiBBMBIBnQWajNAAAAW0lEQVQoz2NgoA8QRAECDIzKKMCVgdFQNBQCwCqAAoqiaRAAEzAUVQIDNdwqUGwBqRBSRUCwCqFUBISYEYqAdDBDSQnNjLQ0dDNCsZsh4oIMXBkYQlFAAE3iDQACDjY6LZtIogAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOC0wNC0xOVQwMTozMjoyNS0wNDowMHkogpkAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTgtMDQtMTlUMDE6MzI6MjUtMDQ6MDAIdTolAAAAAElFTkSuQmCC
 ! title: Calculator
 
-<p>This will eventually be a calculator.</p>
+<style>
+    .result {
+        width: 220px;
+        background-color: white;
+        border-width: 2px;
+        border-style: solid;
+        border-color: black white white black;
+    }
+    .result > span {
+        text-align: right;
+        width: 100%;
+        display: block;
+        color: black;
+    }
+    .keypad {
+        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .keypad > div {
+        display: flex;
+        gap: 5px;
+    }
+    .keypad > div button {
+        flex: 1;
+        height: 30px;
+    }
+    main {
+        padding: 5px;
+    }
+</style>
+<main>
+    <div class = "result">
+        <span>0</span>
+    </div>
+    <div class = "keypad">
+        <div>
+            <button>Backspace</button>
+            <button>Clear</button>
+        </div>
+        <div>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>/</button>
+        </div>
+        <div>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>*</button>
+        </div>
+        <div>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>-</button>
+        </div>
+        <div>
+            <button>0</button>
+            <button>.</button>
+            <button>+</button>
+            <button>=</button>
+        </div>
+    </div>
+</main>
+<script>(() => {
+    const dom = roots["%OS_ROOT"];
+    var expression = "0";
+    for (const button of dom.querySelectorAll("button")) {
+        button.addEventListener("click", (e) => {
+            if (expression === "INVALID" || expression === "0") expression = "";
+            switch (e.currentTarget.innerText) {
+                case "Backspace":
+                    expression = expression.slice(0, -1);
+                    break;
+
+                case "Clear":
+                    expression = "0";
+                    break;
+
+                case "=":
+                    try {
+                        // No, it's not safe. And I /really/ don't care.
+                        expression = eval(expression).toString();
+                    } catch { expression = "INVALID"; }
+                    break;
+
+                default:
+                    if (["/", "*", "-", "+", "."].includes(e.currentTarget.innerText) && !expression) expression = "0";
+                    expression += e.currentTarget.innerText;
+                    break;
+            }
+            dom.querySelector("span").innerText = expression || "0";
+        });
+    }
+})();</script>

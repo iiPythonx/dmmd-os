@@ -1,0 +1,28 @@
+* {
+    color: black;
+    font-family: monospace;
+}
+button {
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #c1c1c1;
+    border-color: white black black white;
+}
+button:active {
+    background-color: #e2e2e2;
+    border-color: black white white black;
+}
+button, input {
+    border-width: 2px;
+    border-style: solid;
+}
+input {
+    height: 16px;
+    outline: none;
+    background-color: white;
+    border-color: black white white black;
+}
+.hidden {
+    display: none !important;
+}
