@@ -10,7 +10,11 @@ class ExecutableHandler {
     }
 
     async load_executables() {
-        this.executables = await (await fetch("https://os.iipython.dev/apps.json")).json();
+        try {
+            this.executables = await (await fetch("https://os.iipython.dev/apps.json")).json();
+        } catch {
+            create_application("Connection problem", ERROR_ICON, `<p style = "margin: 10px;">Failed to download apps from upstream.</p>`);
+        }
     }
 
     launch(name) {

@@ -1,6 +1,8 @@
 * {
-    color: black;
     font-family: monospace;
+}
+span, p {
+    color: black;
 }
 button {
     cursor: pointer;
