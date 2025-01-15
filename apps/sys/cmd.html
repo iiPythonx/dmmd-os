@@ -48,8 +48,17 @@
     // Commands
     const commands = {
         help: (args) => {
-            push_line("Help? As if I would help you.");
-        }
+            push_line("Available commands:");
+            push_line("    help, clear, date, start, exit");
+        },
+        clear: (args) => dom.querySelectorAll(".clearable-line").forEach(_ => _.remove()),
+        date: (args) => push_line(new Date()),
+        start: (args) => {
+            if (!args.length) return push_line("start: nothing specified to launch")
+            if (!exe.executables[args[0]]) return push_line("start: non-existant executable specified")
+            exe.launch(args[0]);
+        },
+        exit: (args) => kill_app("%OS_ROOT")
     }
 
     // Focus on us
@@ -58,8 +67,9 @@
 
     // Handle adding lines
     function push_line(line) {
-        const element = document.createElement("span");
-        element.innerText = line;
+        const element = document.createElement("pre");
+        element.innerHTML = line || "&nbsp;";
+        element.classList.add("clearable-line")
         dom.getElementById("prompt").before(element);
         terminal_div.scrollTop = terminal_div.scrollHeight;
     }
@@ -68,6 +78,7 @@
     const prompt = dom.querySelector("#prompt > pre.text");
     window.addEventListener("keydown", (e) => {
         if (e.target.parentElement.getAttribute("window-id") !== "%OS_ROOT") return;  // Check if we're the focused window
+        e.preventDefault();
         if (e.key === "Backspace") prompt.innerText = prompt.innerText.slice(0, -1);
         if (e.key.length === 1) prompt.innerText += e.key;
         if (e.key === "Enter") {
@@ -80,4 +91,9 @@
             prompt.innerText = "";
         }
     });
+
+    // Steal microsoft's dumb thing
+    push_line("[iiPython OS]");
+    push_line("Copyright (c) 2025 iiPython");
+    push_line();
 })();</script>
