@@ -1,5 +1,8 @@
 // Copyright (c) 2025 iiPython
 
+// Prerequired icons
+const ERROR_ICON = "{% include 'icons/error.ico' %}";
+
 // Handle application creation
 window.roots = {};
 
@@ -116,7 +119,9 @@ function create_application(title, icon, content, size) {
     // Position it in the center
     app.style.top = `calc(50% - (${window.getComputedStyle(app).height} / 2))`;
     app.style.left = `calc(50% - (${window.getComputedStyle(app).width} / 2))`;
+    setTimeout(() => focus(id), 1);  // No, idk why I need a timeout but I do
 }
+function create_error(title, content) { create_application(title, ERROR_ICON, `<p style = "margin: 10px;">${content}</p>`); }
 
 // Connect start menu
 document.querySelector("footer > button").addEventListener("click", () => {

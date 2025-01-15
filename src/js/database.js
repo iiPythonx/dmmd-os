@@ -11,6 +11,10 @@ class Database {
             idb.onsuccess = (event) => {
                 this.db = event.target.result;
                 this.db.onerror = (e) => console.error(`IndexedDB error: ${e.target.error?.message}`);
+                if (this.on_db_loaded) {
+                    this.on_db_loaded(this);
+                    delete this.on_db_loaded;
+                }
             };
             idb.onupgradeneeded = (event) => {
                 event.target.result.createObjectStore("data", { keyPath: "key" });
@@ -29,8 +33,12 @@ class Database {
     get(key) {
         return new Promise((resolve) => {
             if (this.use_indexed) {
-                const req = this.db.transaction(["data"], "readwrite").objectStore("data").get(key);
-                req.onsuccess = (e) => resolve(e.target.result?.value);
+                function process(that) {
+                    const req = that.db.transaction(["data"], "readwrite").objectStore("data").get(key);
+                    req.onsuccess = (e) => resolve(e.target.result?.value);
+                }
+                if (this.db) process(this);
+                else this.on_db_loaded = process;
             } else resolve(localStorage.getItem(key));
         });
     }

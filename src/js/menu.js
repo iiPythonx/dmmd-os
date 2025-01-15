@@ -2,24 +2,49 @@
 
 // Some basic icons
 const FOLDER_ICON = "{% include 'icons/folder.ico' %}";
-const ERROR_ICON = "{% include 'icons/error.ico' %}";
 
 class ExecutableHandler {
     constructor() {
+        this.sources = [];
         this.executables = {};
     }
 
     async load_executables() {
-        try {
-            this.executables = await (await fetch("https://os.iipython.dev/apps.json")).json();
+        if (!this.sources.length) {
+            const sources = await db.get("app-sources");
+            this.sources = sources ? JSON.parse(sources) : [
+                {
+                    url: "https://os.iipython.dev",
+                    status: null,
+                    apps: null
+                },
+                {
+                    url: "http://localhost:8001",
+                    status: null,
+                    apps: null
+                }
+            ];
+        }
 
-            // Handle first boot (if loading was successful)
-            if (!+(await db.get("core.first_boot"))) {
-                exe.launch("sys/firstboot");
-                db.set("core.first_boot", 1);
+        let source_failure = false;
+        for (const origin of this.sources) {
+            try {
+                const apps = await (await fetch(`${origin.url}/apps.json`)).json();
+                origin.status = true, origin.apps = Object.keys(apps).length;
+                this.executables = { ...this.executables, ...apps };
+            } catch {
+                origin.status = false;
+                source_failure = true;
             }
-        } catch {
-            create_application("Connection problem", ERROR_ICON, `<p style = "margin: 10px;">Failed to download apps from upstream.</p>`);
+        }
+
+        db.set("app-sources", JSON.stringify(this.sources));
+        if (source_failure && this.executables["sys/settings/sources"]) exe.launch("sys/settings/sources");
+
+        // Handle first boot (if loading was successful)
+        if (!+(await db.get("core.first_boot")) && this.executables["sys/firstboot"]) {
+            exe.launch("sys/firstboot");
+            db.set("core.first_boot", 1);
         }
     }
 
@@ -27,7 +52,7 @@ class ExecutableHandler {
         const exec = this.executables[name];
         if (!exec) {
             console.error("Attempted to launch a non-existant executable:", name);
-            return create_application("Not found", ERROR_ICON, `<p style = "margin: 10px;">The specified executable doesn't exist.</p>`);
+            return create_error("Not found", "The specified executable doesn't exist.");
         }
         create_application(exec.title, exec.icon, exec.html, exec.size);
     }

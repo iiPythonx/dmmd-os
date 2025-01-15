@@ -5,6 +5,7 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 # Handle loading apps
 apps_path = Path("apps")
@@ -29,6 +30,7 @@ def generate_app_data() -> dict:
 
 # Routing
 app = FastAPI(openapi_url = None)
+app.add_middleware(CORSMiddleware, allow_origins = ["*"], allow_credentials = True, allow_methods = ["*"], allow_headers = ["*"])
 
 @app.get("/apps.json")
 async def route_apps() -> JSONResponse:

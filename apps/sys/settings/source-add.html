@@ -1,0 +1,30 @@
+! name:  Add Source
+! icon:  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAJFBMVEUAAACAgID////AwMAA/wAAgAAAAID/AAAAAP8AgIAAAAAA//9zvTsUAAAAAXRSTlMAQObYZgAAAAFiS0dEAmYLfGQAAAAHdElNRQfiBBMBJTjhR0zWAAABcUlEQVQoz02RP0/DMBDFzcDCRhETWykDYkPmC5DcwoQUH209sWCsjEgoqHuNE+ZKlrpEah1Ft1eCb8clKX/eZL/7+dm+E6LXMUv86eB4LKXC+9/96DxJANA87o1RX8fCuT0wljeAbARbD8A5wPRtOS8bl+8BhdMFtSG3pkNOMs6blWVFVJgOGe040IcQVlAYzSeur1bAQFkqahBqjvja4YzrS2qjvGHjar3Gvq6rTcLEyeXXJwcEsm2zlUqL0Xr1wQD5ysUNABu7jBMo+I2WW4VanGXjiznxM+RdEgFJnF7fphSCb9V2ILLJhOa+rPxyAz0xfaEUZ771uZRb1FpMF2maYuFdlQzE4SQFgML7qBQTtTi8TVOlcOaihoiRDckA/z+3bYwdIVQn/b5w7v2VI4TIOkI/v1n7vOBLBJ/hCO1YD4b6LiOgbq21T3d9BxlBbDrgSZthDAI1140xTb6f3FFjeuX1z3CPqNtT/W/+xBpW3/A1qZ4HUdqNAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTA0LTE5VDAxOjM3OjU2LTA0OjAwpCxaWQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0wNC0xOVQwMTozNzo1Ni0wNDowMNVx4uUAAAAASUVORK5CYII=
+! title: Add Source
+
+<main style = "margin: 10px; color: black;">
+    <fieldset>
+        <legend>Source URL</legend>
+        <input placeholder = "https://os.iipython.dev" style = "width: 300px;">
+        <legend style = "margin-top: 5px;">The source will apply after an OS reload.</legend>
+    </fieldset>
+    <div class = "button-list" style = "margin-top: 5px;">
+        <button id = "cancel">Cancel</button>
+        <button id = "ok">OK</button>
+    </div>
+</main>
+<script>(() => {
+    const dom = roots["%OS_ROOT"];
+    const evil_regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/;
+    dom.getElementById("cancel").addEventListener("click", () => kill_app("%OS_ROOT"));
+    dom.getElementById("ok").addEventListener("click", async () => {
+        const source_url = dom.querySelector("input").value;
+        if (!evil_regex.test(source_url)) return create_error("Invalid Source URL", "Specified URL is invalid!");
+        const sources = JSON.parse(await db.get("app-sources"));
+        sources.push({ url: source_url, status: null, apps: null });
+        db.set("app-sources", JSON.stringify(sources));
+        if (window.on_source_added) window.on_source_added();
+        kill_app("%OS_ROOT");
+    });
+})();</script>
+

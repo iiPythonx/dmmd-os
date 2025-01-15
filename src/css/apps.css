@@ -28,3 +28,10 @@ input {
 .hidden {
     display: none !important;
 }
+.button-list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 5px;
+}
