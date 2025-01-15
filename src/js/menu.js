@@ -39,7 +39,10 @@ class ExecutableHandler {
         }
 
         db.set("app-sources", JSON.stringify(this.sources));
-        if (source_failure && this.executables["sys/settings/sources"]) exe.launch("sys/settings/sources");
+        if (source_failure) {
+            if (this.executables["sys/settings/sources"]) exe.launch("sys/settings/sources");
+            else create_error("Source problem", "No source connections were successful, as a result no apps are available.");
+        }
 
         // Handle first boot (if loading was successful)
         if (!+(await db.get("core.first_boot")) && this.executables["sys/firstboot"]) {
