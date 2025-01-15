@@ -1,8 +1,5 @@
 // Copyright (c) 2025 iiPython
 
-// Prerequired icons
-const ERROR_ICON = "{% include 'icons/error.ico' %}";
-
 // Handle application creation
 window.roots = {};
 
@@ -29,7 +26,7 @@ function create_application(title, icon, content, size) {
     const app = document.createElement("article");
     app.innerHTML = `
         <header>
-            <img src = "${icon}">
+            <i class = "icon icon-${icon}"></i>
             <h4>${title}</h4>
             <button><span>_</span></button>
             <button><span>x</span></button>
@@ -52,7 +49,7 @@ function create_application(title, icon, content, size) {
 
     const tasklet = document.createElement("button");
     tasklet.classList.add("active");
-    tasklet.innerHTML = `<img src = "${icon}"> ${title}`;
+    tasklet.innerHTML = `<i class = "icon icon-${icon}"></i> ${title}`;
     tasklet.setAttribute("window-id", id);
     tasklet.addEventListener("click", () => {
         if (app.classList.contains("hidden")) {
@@ -121,7 +118,7 @@ function create_application(title, icon, content, size) {
     app.style.left = `calc(50% - (${window.getComputedStyle(app).width} / 2))`;
     setTimeout(() => focus(id), 1);  // No, idk why I need a timeout but I do
 }
-function create_error(title, content) { create_application(title, ERROR_ICON, `<p style = "margin: 10px;">${content}</p>`); }
+function create_error(title, content) { create_application(title, "error", `<p style = "margin: 10px;">${content}</p>`); }
 
 // Connect start menu
 document.querySelector("footer > button").addEventListener("click", () => {

@@ -1,5 +1,5 @@
 ! name:  Run
-! icon:  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAIVBMVEUAAACAgID////AwMAAAAAAAIAA//8AgIAAAP///wAA/wCH01d4AAAAAXRSTlMAQObYZgAAAAFiS0dEAmYLfGQAAAAHdElNRQfiBhgXDTQAxqX0AAABBUlEQVQoz1WRQW6DMBBFjZQLmEGRugRDpC7NIKpmZRdWXVbKBQKyxAnaI/QKZtsoi5yyHmwnzt/5+Xk8o2HMh4eEI8sqH6kiaE6UrwRgfzjgEzifp7cUkPCdAhKeAAl3wHnRkPATgGtCNyT8BuAE3ZAQQMb5oB+N0QAF6kfrrkA5oEYfekICjjFdADpMDwVjeVUjfpSc51QkAv1isXMaRrBfLIp6HAOQ8mps28KAqDYA/GgWUUr3C/PGfrouFdAXBNoOwBxnLWW3ARC1BDRqlxpcSrUzU2K428/ezKkhVuznu6Ehx/UPVTSKTIrX9RaAM5SjaG8Xv4GtvQze7SXuxC+Gj/78D1T2Tj57LTtYAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTA2LTI0VDIzOjEzOjUyLTA0OjAwrrIJOwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0wNi0yNFQyMzoxMzo1Mi0wNDowMN/vsYcAAAAASUVORK5CYII=
+! icon:  installer
 ! title: Run
 
 <style>
@@ -44,14 +44,10 @@
         gap: 5px;
         white-space: nowrap;
     }
-    button > div > div img {
-        width: 16px;
-        height: 16px;
-    }
 </style>
 <main>
     <div>
-        <img src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAKlBMVEUAAACAgIDAwMAAAAAAAID/AACAAAD//wCAgAAA//8AAP8A/wAAgAD///8z9S1/AAAAAXRSTlMAQObYZgAAAAFiS0dEDfa0YfUAAAAHdElNRQfiBBAHOBVNzK/jAAAAsklEQVQoz5XQOw4CIRAG4CGeQKgpgJpE2XobX4n2HMHHQbyNHsMLiDV3EYYsDGYb//ILM0x+AFh2AQCuSUyG/fW+myIyHG4IG6OdQTg+Xj2cngjbIUX8LkUgn3IEGWvCDFwwY4Nz0N57Aov82UBGmA1aiQ7i36C5W1MA/jFqpMCsE/RSANkezAOzuh/h0SlHCip31IYQnBJDTYJ0R949hVmZLqWg3sZQKAURKBWuGpTdDb6Qja7R0QnGfQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOC0wNC0xNlQwNzo1NjoyMS0wNDowMEI2dFQAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTgtMDQtMTZUMDc6NTY6MjEtMDQ6MDAza8zoAAAAAElFTkSuQmCC">
+        <i class = "icon-big icon-run"></i>
         <span>Type the name of an executable to open.</span>
     </div>
     <div>
@@ -68,7 +64,7 @@
     for (const item in exe.executables) {
         const data = exe.executables[item];
         const menu_item = document.createElement("div");
-        menu_item.innerHTML = `<img src = "${data.icon}"> ${data.name}`;
+        menu_item.innerHTML = `<i class = "icon icon-${data.icon}"></i> ${data.name}`;
         dom.querySelector("button > div").appendChild(menu_item);
 
         // Fill out the input when we select an item

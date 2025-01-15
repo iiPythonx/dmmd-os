@@ -40,10 +40,6 @@ main > article header {
     user-select: none;
     background: linear-gradient(to right, #1a0495, #1380d5);
 }
-main > article header img {
-    width: 16px;
-    height: 16px;
-}
 main > article header h4 {
     margin-left: 2px;
     flex: 1;
@@ -98,10 +94,6 @@ div.vertical-space {
     border-left: 1px solid gray;
     border-right: 1px solid white;
 }
-#tasklets img {
-    width: 16px;
-    height: 16px;
-}
 
 /* Start menu */
 .hidden {
@@ -150,10 +142,6 @@ div.vertical-space {
     width: 213px;
     background-color: #c0c0c0;
     position: absolute;
-}
-#start button > div img {
-    width: 16px;
-    height: 16px;
 }
 
 /* Button styling */

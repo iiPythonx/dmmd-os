@@ -1,8 +1,5 @@
 // Copyright (c) 2025 iiPython
 
-// Some basic icons
-const FOLDER_ICON = "{% include 'icons/folder.ico' %}";
-
 class ExecutableHandler {
     constructor() {
         this.sources = [];
@@ -63,7 +60,7 @@ class ExecutableHandler {
     find(name) {
         if (!this.executables[name]) return {
             name: name,
-            icon: FOLDER_ICON,
+            icon: "folder",
             exec: name
         };
         return {
@@ -85,7 +82,7 @@ function build_menu(structure, parent) {
         }
     
         const button = document.createElement("button");
-        button.innerHTML = `<img src = "${item.icon}"> ${item.name}`;
+        button.innerHTML = `<i class = "${parent.id === "menu-entries" ? "icon-big" : "icon"} icon-${item.icon}"></i> ${item.name}`;
         parent.appendChild(button);
     
         if (item.exec.constructor === Array) {
@@ -111,13 +108,13 @@ function build_menu(structure, parent) {
 const start_menu_struct = [
     {
         name: "Programs",
-        icon: "{% include 'icons/programs.ico' %}",
+        icon: "programs",
         exec: [
             exe.find("notepad"),
             exe.find("calc"),
             {
                 name: "Games",
-                icon: FOLDER_ICON,
+                icon: "folder",
                 exec: [
                     exe.find("games/minesweeper")
                 ]
@@ -130,7 +127,7 @@ const start_menu_struct = [
     exe.find("menu/documents"),
     {
         name: "Settings",
-        icon: "{% include 'icons/settings.ico' %}",
+        icon: "settings",
         exec: [
             exe.find("sys/firstboot"),
             exe.find("sys/settings/main"),
@@ -144,7 +141,7 @@ const start_menu_struct = [
     { type: "space" },
     {
         name: "Back to Bootloader...",
-        icon: "{% include 'icons/shutdown.ico' %}",
+        icon: "shutdown",
         exec: "shutdown"
     }
 ];
