@@ -11,15 +11,22 @@
         color: black;
     }
     fieldset:last-child {
-        width: 280px;
+        width: 600px;
     }
     fieldset > ul {
         padding: 0px;
         margin: 0px;
         list-style: none;
     }
+    #content {
+        height: 230px;
+        overflow-y: scroll;
+    }
     ul > ul {
         padding-left: 20px;
+    }
+    b {
+        text-decoration: underline;
     }
     li:not(.help-item) {
         font-weight: bold;
@@ -37,6 +44,10 @@
     li.help-item.selected {
         color: white;
         background-color: #010080;
+    }
+    p i {
+        top: 3px;
+        position: relative;
     }
     .sidebyside {
         display: flex;
@@ -64,24 +75,154 @@
         {
             name: "General",
             items: [
-                { name: "FAQ", text: "Hello, world." },
-                { name: "Design", text: "Design page." }
+                {
+                    name: "FAQ",
+                    text: `
+                        <b>How do I set the clock to 24 hour time?</b>
+                        <p>You don't.</p>
+                        <b>How do I set the clock to UTC?</b>
+                        <p>You don't.</p>
+                        <b>How do I play minesweeper?</b>
+                        <p>Not sure, even I still don't understand it.</p>
+                        <b>So, what can I do?</b>
+                        <p>Click buttons and look entertained.</p>
+                    `
+                },
+                {
+                    name: "Design",
+                    text: `
+                        <b>Appearance</b>
+                        <p>iiPython OS is based on the looks of <a href = "https://en.wikipedia.org/wiki/Windows_9x" target = "_blank">Windows 9x</a>.</p>
+                        <b>Code Style</b>
+                        <p>It's a shitshow. If you want to contribute, please feel free to do so.</p>
+                        <b>Apps</b>
+                        <p>
+                            I'll try to add as many as I can, but if you want to contribute some built-in <br>
+                            apps, I would highly recommend creating a PR with your changes.
+                        </p>
+                        
+                    `
+                }
             ]
         },
         {
             name: "How-to",
             items: [
-                { name: "Edit sources", text: "Edit sources page." },
-                { name: "Run a non-menu app", text: "Idk." },
-                { name: "Reorder menu", text: "Testing." }
+                {
+                    name: "Edit sources",
+                    text: `
+                        <div>
+                            <b>What are sources?</b>
+                            <p>
+                                <em>Sources</em> are the upstream providers that contain your applications.
+                                In order for the OS to operate, you need some baseline apps installed.
+                            </p>
+                        </div>
+                        <div>
+                            <b>How do I change them?</b>
+                            <p>
+                                Launch the <i class = "icon icon-globe"></i> App Sources app from the
+                                <i class = "icon icon-settings"></i>Settings section of the Start Menu. <br>
+                                Check the <a></a> backend source to run your own source.
+                            </p>
+                        </div>
+                    `
+                },
+                {
+                    name: "Run a non-menu app",
+                    text: `
+                        <div>
+                            <b>Method 1</b>
+                            <p>Launch <i class = "icon icon-run"></i> Run from the Start Menu.</p>
+                            <p>Enter the name of the app you want to run, or select it from the dropdown.</p>
+                        </div>
+                        <div>
+                            <b>Method 2</b>
+                            <p>Launch the <i class = "icon icon-command-prompt"></i> Command Prompt from the Start Menu.</p>
+                            <p>Type <em>start application-name</em> and press <em>ENTER</em>.</p>
+                        </div>
+                    `
+                },
+                {
+                    name: "Reorder menu",
+                    text: `
+                        <p>
+                            <i class = "icon icon-error"></i>
+                            <b>This page is not complete yet! The menu is uneditable in its current state.</b>
+                        </p>
+                    `
+                }
             ]
         },
         {
             name: "Development",
             items: [
-                { name: "JS API", text: "Yuh." },
-                { name: "Styling", text: "Interesting." },
-                { name: "Publishing", text: "Publish some stuff." }
+                {
+                    name: "JS API",
+                    text: `
+                        <div>
+                            <b>Accessing globals</b>
+                            <p>
+                                In an app, you can access core OS components through the global <em>os</em> object. <br> <br>
+                                You can use it like this: <br>
+                                <em>const { db } = os;</em> <br> <br>
+                                For more details about destructuring in JS, check <a href = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment" target = "_blank">this page</a>.
+                            </p>
+                        </div>
+                        <div>
+                            <b>Available modules</b>
+                            <p>The <em>db</em> module allows access to the OS database to store or overwrite data.</p>
+                            <p>Methods available on it are as follows:</p>
+                            <ul>
+                                <li>db.get(key) <em>(async)</em></li>
+                                <li>db.set(key, value)</li>
+                            </ul>
+                            <p>Due to the fact that iiPython OS supports both IndexedDB and LocalStorage, all values must be treated as strings.</p>
+                        </div>
+                    `
+                },
+                {
+                    name: "Styling",
+                    text: `
+                        <div>
+                            <b>Global styles</b>
+                            <p>In addition to being allowed to write your own per-app styling, the OS provides you with some default styles.</p>
+                            <p>Some examples of this include default styling for <em>button</em>, <em>input</em>, and setting the default font.</p>
+                            <p>For a full list of styles, check <a href = "https://github.com/iiPythonx/dmmd-os/tree/main/src/css/apps.css" target = "_blank">apps.css</a>.</p>
+                        </div>
+                        <div>
+                            <b>Icons</b>
+                            <p>As a Windows 9x/NT inspired project, there are various Windows 9x icons that are globally available through CSS.</p>
+                            <p>To use them, add the <em>icon</em> or <em>icon-big</em> class followed by <em>icon-iconname</em>.</p>
+                            <p><em>icon-big</em> will scale icons to 32x32, the default resolution is 16x16.</p>
+                            <p>For a list of icons, check <a href = "https://github.com/iiPythonx/dmmd-os/tree/main/src/css/icons.css" target = "_blank">icons.css</a>.</p>
+                        </div>
+                    `
+                },
+                {
+                    name: "Publishing",
+                    text: `
+                        <div>
+                            <b>Adding HTML metadata</b>
+                            <p>For the backend to work, your HTML apps need to have metadata at the top of the file.</p>
+                            <p>The format for this is <em>! key: value</em>.</p>
+                            <p>The required metadata is as follows:</p>
+                            <ul>
+                                <li>! name: Example Application</li>
+                                <li>! icon: msagent</li>
+                                <li>! title: Blank Window</li>
+                            </ul>
+                            <p>You can additionally provide <em>size</em> which should be in the format WIDTHxHEIGHT.</p>
+                        </div>
+                        <div>
+                            <b>Publishing</b>
+                            <p>Place your HTML app in the <em>apps</em> folder of your server installation.</p>
+                            <p>If you don't have an installation, clone the <a href = "https://github.com/iiPythonx/dmmd-os" target = "_blank">GitHub repo</a> and create the <em>apps</em> folder.</p>
+                            <p>You will need to setup a <em>venv</em> and then run <em>uvicorn serve_apps:app</em>.</p>
+                            <p>Afterwards, add your domain as a source in the OS and you're done!</p>
+                        </div>
+                    `
+                }
             ]
         }
     ];
@@ -102,7 +243,7 @@
             element.addEventListener("click", () => {
                 for (const e of dom.querySelectorAll(".help-item")) e.classList.remove("selected");
                 element.classList.add("selected");
-                dom.getElementById("content").innerText = child.text;
+                dom.getElementById("content").innerHTML = child.text;
             });
 
             children.appendChild(element);
