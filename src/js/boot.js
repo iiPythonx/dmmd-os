@@ -101,7 +101,7 @@ function create_application(title, icon, content, size) {
 
     // Insert shared app CSS
     const sheet = new CSSStyleSheet();
-    sheet.replaceSync(`{% include 'css/apps.css' %}`);
+    sheet.replaceSync(`{% include 'css/apps.css' %}{% include 'css/icons.css' %}`);
     root.adoptedStyleSheets = [sheet];
 
     // Append to desktop

@@ -1,4 +1,112 @@
 ! name:  Help
 ! icon:  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAGFBMVEUAAACAAIAAAACAgICAgAD//wDAwMD///9lJw0+AAAAAXRSTlMAQObYZgAAAAFiS0dEBxZhiOsAAAAHdElNRQfiBhgXChR06RP7AAAAvUlEQVQoz3XRUQ6DIAyAYeYNKOwd8QTLEn1eMg+wxF7AB7zBvP7aUlBM5hufP5QEY/58N7iAs7ENHrYVZ20jHDQiwUk4mPF1CAV3RKwNB7i88UMAGnj6LRDKCE9GAKGOmOWMIZQ70JqmwBg08Ljw1CGFcknPaxgJIMoOXlPA8GSRkXZMKRpILHM+Ia1gYPtKIyeknrZsu0oOGLJoYKybsmhgul5Fg0M0qLKXoEoNihyByto8Jsk5ELm+dqfBDwcgN9nfkQsOAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTA2LTI0VDIzOjEwOjIwLTA0OjAw2N+qCAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0wNi0yNFQyMzoxMDoyMC0wNDowMKmCErQAAAAASUVORK5CYII=
 ! title: Get Help
-<p style = "color: black; margin: 5px;">Check out <a href = "https://github.com/iiPythonx/dmmd-os" target = "_blank">iiPythonx/dmmd-os</a> for help or reporting issues.</p>
+
+<style>
+    main {
+        margin: 10px;
+    }
+    fieldset {
+        padding: 10px;
+        color: black;
+    }
+    fieldset:last-child {
+        width: 280px;
+    }
+    fieldset > ul {
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+    }
+    ul > ul {
+        padding-left: 20px;
+    }
+    li:not(.help-item) {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+    li.help-item {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    li.help-item:hover {
+        text-decoration: underline;
+    }
+    li.help-item.selected {
+        color: white;
+        background-color: #010080;
+    }
+    .sidebyside {
+        display: flex;
+        gap: 5px;
+    }
+</style>
+<main>
+    <div class = "sidebyside">
+        <fieldset>
+            <legend>Table of Contents</legend>
+            <ul></ul>
+        </fieldset>
+        <fieldset>
+            <legend>Text content</legend>
+            <div id = "content">Please select an article to view it.</div>
+        </fieldset>
+    </div>
+    <p>Check out <a href = "https://github.com/iiPythonx/dmmd-os" target = "_blank">iiPythonx/dmmd-os</a> for reporting issues.</p>
+</main>
+<script>(() => {
+    const dom = roots["%OS_ROOT"];
+
+    // Menu definition
+    const structure = [
+        {
+            name: "General",
+            items: [
+                { name: "FAQ", text: "Hello, world." },
+                { name: "Design", text: "Design page." }
+            ]
+        },
+        {
+            name: "How-to",
+            items: [
+                { name: "Edit sources", text: "Edit sources page." },
+                { name: "Run a non-menu app", text: "Idk." },
+                { name: "Reorder menu", text: "Testing." }
+            ]
+        },
+        {
+            name: "Development",
+            items: [
+                { name: "JS API", text: "Yuh." },
+                { name: "Styling", text: "Interesting." },
+                { name: "Publishing", text: "Publish some stuff." }
+            ]
+        }
+    ];
+
+    // Load structure into DOM
+    for (const item of structure) {
+        const heading = document.createElement("li");
+        heading.innerText = item.name;
+
+        // Create the children
+        const children = document.createElement("ul");
+        for (const child of item.items) {
+            const element = document.createElement("li");
+            element.innerHTML = `<i class = "icon icon-book"></i> ${child.name}`;
+            element.classList.add("help-item");
+
+            // Handle toggling this item
+            element.addEventListener("click", () => {
+                for (const e of dom.querySelectorAll(".help-item")) e.classList.remove("selected");
+                element.classList.add("selected");
+                dom.getElementById("content").innerText = child.text;
+            });
+
+            children.appendChild(element);
+        }
+        dom.querySelector("fieldset > ul").append(heading, children);
+    }
+})();</script>
