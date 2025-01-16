@@ -1,0 +1,125 @@
+! name:  Internet Explorer
+! icon:  iexplore
+! title: Internet Explorer
+! size:  650x310
+
+<style>
+    main {
+        gap: 4px;
+        height: 100%;
+        padding: 2px;
+        display: flex;
+        flex-direction: column;
+    }
+    i.icon-big {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    div.line {
+        height: 35px;
+        border-left: 1px solid gray;
+        border-right: 1px solid white;
+    }
+    button {
+        gap: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    button:not(:active) {
+        border: 2px solid transparent !important;
+    }
+    #heading {
+        border: 1px solid gray;
+        display: flex;
+        flex-direction: column;
+    }
+    #heading > div:first-child {
+        gap: 10px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid gray;
+    }
+    #heading > div:last-child {
+        gap: 4px;
+        display: flex;
+        padding-left: 5px;
+        padding-right: 5px;
+        align-items: center;
+        border-top: 1px solid white;
+    }
+    #input-contain {
+        height: 20px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex: 1;
+        background-color: white;
+        border-width: 2px;
+        padding-left: 2px;
+        border-style: solid;
+        border-color: black white white black;
+    }
+    #content {
+        flex: 1;
+        background-color: white;
+        border-width: 2px;
+        border-style: solid;
+        border-color: black gray gray black;
+    }
+    input {
+        border: none !important;
+        letter-spacing: -1px;
+    }
+</style>
+
+<main>
+    <section id = "heading">
+        <div>
+            <button>
+                <i class = "icon-big">←</i>
+                Back
+            </button>
+            <button disabled>
+                <i class = "icon-big">→</i>
+                Forward
+            </button>
+            <button>
+                <i class = "icon-big icon-stop"></i>
+                Stop
+            </button>
+            <button>
+                <i class = "icon-big">↻</i>
+                Refresh
+            </button>
+            <button>
+                <i class = "icon-big icon-home"></i>
+                Home
+            </button>
+            <div class = "line"></div>
+            <button>
+                <i class = "icon-big icon-web-search"></i>
+                Search
+            </button>
+            <button>
+                <i class = "icon-big icon-favorites"></i>
+                Favorites
+            </button>
+            <button>
+                <i class = "icon-big icon-history"></i>
+                History
+            </button>
+        </div>
+        <div>
+            <span>Address</span>
+            <div id = "input-contain">
+                <i class = "icon icon-html"></i>
+                <input value = "about:blank">
+            </div>
+            <div class = "line" style = "height: 24px !important;"></div>
+            <span>Links</span>
+        </div>
+    </section>
+    <iframe id = "content"></iframe>
+</main>
+

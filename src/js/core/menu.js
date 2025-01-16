@@ -120,7 +120,8 @@ const start_menu_struct = [
                 ]
             },
             exe.find("sys/cmd"),
-            exe.find("cooldude")
+            exe.find("cooldude"),
+            exe.find("iexplore")
         ]
     },
     exe.find("menu/favorites"),
