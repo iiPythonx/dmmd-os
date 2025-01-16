@@ -8,7 +8,6 @@ function attach_api_to_shadow_dom(shadow_dom) {
         if (!app) return;
 
         // Triple check :3
-        console.log(`[OS] Call received from "${e.detail.from}":`, e.detail);
         if (!(e.detail.method && e.detail.args && e.detail.args.length !== undefined)) return;
         const args = e.detail.args;
 
@@ -51,6 +50,29 @@ function attach_api_to_shadow_dom(shadow_dom) {
             case "app.list_all":
                 respond(exe.executables);
                 break;
+            case "file.list":
+                if (!args) return;
+                respond(await file_api.list(args));
+                break;
+            // case "file.save_as":
+            //     if (!args.length === 3) return;
+
+            //     await new Promise((resolve) => {
+            //         window.on_save_as_confirmation = (location) => {
+            //             console.log(location);
+            //             resolve();
+            //             delete window.on_save_as_confirmation;
+            //         }
+            //         window_api.create("Save As", "folder", `
+            //             <span>${args[0]}</span>    
+            //             <span>${args[1]}</span>    
+            //             <span>${args[2]}</span>
+            //         `);
+            //         resolve();
+            //     });
+
+            //     respond();
+            //     break;
         }
     }, false);
 }
