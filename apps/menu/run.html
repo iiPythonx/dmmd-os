@@ -59,10 +59,10 @@
         </button>
     </div>
 </main>
-<script>(() => {
-    const dom = roots["%OS_ROOT"];
-    for (const item in exe.executables) {
-        const data = exe.executables[item];
+<script>
+    const apps = await oscall("app.list_all");
+    for (const item in apps) {
+        const data = apps[item];
         const menu_item = document.createElement("div");
         menu_item.innerHTML = `<i class = "icon icon-${data.icon}"></i> ${data.name}`;
         dom.querySelector("button > div").appendChild(menu_item);
@@ -75,10 +75,10 @@
     dom.querySelector("button").addEventListener("click", (e) => {
         e.currentTarget.querySelector("div").classList.toggle("hidden");
     });
-    dom.querySelector("input").addEventListener("keydown", (e) => {
+    dom.querySelector("input").addEventListener("keydown", async (e) => {
         if (e.key === "Enter" && e.currentTarget.value) {
-            exe.launch(e.currentTarget.value);
-            kill_app("%OS_ROOT");
+            await oscall("app.run", e.currentTarget.value);
+            await oscall("app.kill");
         };
     });
-})();</script>
+</script>

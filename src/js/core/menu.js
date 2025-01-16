@@ -38,7 +38,7 @@ class ExecutableHandler {
         db.set("app-sources", JSON.stringify(this.sources));
         if (source_failure) {
             if (this.executables["sys/settings/sources"]) exe.launch("sys/settings/sources");
-            else create_error("Source problem", "No source connections were successful, as a result no apps are available.");
+            else window_api.error("Source problem", "No source connections were successful, as a result no apps are available.");
         }
 
         // Handle first boot (if loading was successful)
@@ -52,9 +52,9 @@ class ExecutableHandler {
         const exec = this.executables[name];
         if (!exec) {
             console.error("Attempted to launch a non-existant executable:", name);
-            return create_error("Not found", "The specified executable doesn't exist.");
+            return window_api.error("Not found", "The specified executable doesn't exist.");
         }
-        create_application(exec.title, exec.icon, exec.html, exec.size);
+        window_api.create(exec.title, exec.icon, exec.html, exec.size);
     }
 
     find(name) {
@@ -70,7 +70,7 @@ class ExecutableHandler {
     }
 }
 
-window.exe = new ExecutableHandler();
+const exe = new ExecutableHandler();
 await exe.load_executables();
 
 // Start menu structure

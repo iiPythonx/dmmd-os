@@ -35,20 +35,18 @@
     </div>
 </fieldset>
 
-<script>(async () => {
-    const dom = roots["%OS_ROOT"];
-
+<script>
     class SourceHandler {
         constructor() {
             this.sources = [];
 
             // Connect to DOM events
-            dom.getElementById("add").addEventListener("click", () => {
+            dom.getElementById("add").addEventListener("click", async () => {
                 window.on_source_added = async () => {
                     await this.load_sources();
                     delete window.on_source_added;
                 }
-                exe.launch("sys/settings/source-add");
+                await oscall("app.run", "sys/settings/source-add");
             });
             dom.getElementById("move-up").addEventListener("click", () => {
                 const source = this.get_source();
@@ -59,7 +57,7 @@
                 if (source) this.move_source_down(source);
             });
             dom.getElementById("remove").addEventListener("click", () => {
-                for (const source in this.get_sources()) this.sources.splice(this.sources.indexOf(source), 1);
+                for (const source of this.get_sources()) this.sources.splice(this.sources.indexOf(source), 1);
                 this.draw_sources();
             });
         }
@@ -75,11 +73,11 @@
         get_source() {
             const sources = this.get_sources();
             if (!sources) return;
-            if (sources.length > 1) return create_error("Failed to move", "You can only move a single app at a time.");
+            if (sources.length > 1) return oscall("app.error", "Failed to move", "You can only move a single app at a time.");
             return sources[0];
         }
 
-        draw_sources() {
+        async draw_sources() {
             dom.querySelector("table").innerHTML = `
                 <tr>
                     <th></th>
@@ -91,14 +89,14 @@
             for (const source of this.sources) {
                 const source_element = document.createElement("tr");
                 source_element.innerHTML = `
-                <td><input type = "checkbox"></td>
-                <td class = "url">${source.url}</td>
-                <td>${source.apps || 'N/A'}</td>
-                ${source.status ? "<td class = 'ok'>OK</td>" : "<td class = 'error'>ERROR</td>"}
+                    <td><input type = "checkbox"></td>
+                    <td class = "url">${source.url}</td>
+                    <td>${source.apps || 'N/A'}</td>
+                    ${source.status ? "<td class = 'ok'>OK</td>" : "<td class = 'error'>ERROR</td>"}
                 `;
                 dom.querySelector("table").appendChild(source_element);
             }
-            db.set("app-sources", JSON.stringify(this.sources));
+            await oscall("db.set", "app-sources", this.sources);
         }
 
         move_source_up(source) {
@@ -116,7 +114,7 @@
         }
 
         async load_sources() {
-            this.sources = JSON.parse(await db.get("app-sources"));
+            this.sources = await oscall("db.get", "app-sources")
             if (this.sources.constructor !== Array) return console.error("[Sources] Something fucked up and I don't like it.");
             this.draw_sources();
         }
@@ -124,4 +122,4 @@
 
     // Initialization
     (new SourceHandler()).load_sources();
-})();</script>
+</script>

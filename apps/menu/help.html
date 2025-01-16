@@ -1,6 +1,7 @@
 ! name:  Help
 ! icon:  book
 ! title: Get Help
+! size: 760x350
 
 <style>
     main {
@@ -10,8 +11,11 @@
         padding: 10px;
         color: black;
     }
+    fieldset:first-child {
+        flex: 1;
+    }
     fieldset:last-child {
-        width: 600px;
+        width: 500px;
     }
     fieldset > ul {
         padding: 0px;
@@ -27,6 +31,9 @@
     }
     b {
         text-decoration: underline;
+    }
+    li {
+        width: fit-content;
     }
     li:not(.help-item) {
         font-weight: bold;
@@ -67,10 +74,7 @@
     </div>
     <p>Check out <a href = "https://github.com/iiPythonx/dmmd-os" target = "_blank">iiPythonx/dmmd-os</a> for reporting issues.</p>
 </main>
-<script>(() => {
-    const dom = roots["%OS_ROOT"];
-
-    // Menu definition
+<script>
     const structure = [
         {
             name: "General",
@@ -250,4 +254,4 @@
         }
         dom.querySelector("fieldset > ul").append(heading, children);
     }
-})();</script>
+</script>

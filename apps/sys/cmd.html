@@ -41,9 +41,8 @@
         <span>_</span>
     </span>
 </div>
-<script>(() => {
-    const dom = roots["%OS_ROOT"];
-    const main = document.querySelector(`article[window-id = "%OS_ROOT"]`);
+<script>
+    const main = dom.host.parentElement;
 
     // Commands
     const commands = {
@@ -53,12 +52,12 @@
         },
         clear: (args) => dom.querySelectorAll(".clearable-line").forEach(_ => _.remove()),
         date: (args) => push_line(new Date()),
-        start: (args) => {
+        start: async (args) => {
             if (!args.length) return push_line("start: nothing specified to launch")
             if (!exe.executables[args[0]]) return push_line("start: non-existant executable specified")
-            exe.launch(args[0]);
+            await oscall("app.run", args[0]);
         },
-        exit: (args) => kill_app("%OS_ROOT")
+        exit: async (args) => await oscall("app.kill")
     }
 
     // Focus on us
@@ -77,7 +76,7 @@
     // Handle keypresses
     const prompt = dom.querySelector("#prompt > pre.text");
     window.addEventListener("keydown", (e) => {
-        if (e.target.parentElement.getAttribute("window-id") !== "%OS_ROOT") return;  // Check if we're the focused window
+        if (e.target.parentElement.getAttribute("window-id") !== main.getAttribute("window-id")) return;  // Check if we're the focused window
         e.preventDefault();
         if (e.key === "Backspace") prompt.innerText = prompt.innerText.slice(0, -1);
         if (e.key.length === 1) prompt.innerText += e.key;
@@ -96,4 +95,4 @@
     push_line("[iiPython OS]");
     push_line("Copyright (c) 2025 iiPython");
     push_line();
-})();</script>
+</script>

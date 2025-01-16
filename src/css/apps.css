@@ -1,6 +1,12 @@
 * {
     font-family: monospace;
 }
+html, body {
+    height: 100%;
+}
+body {
+    margin: 0px;
+}
 span, p {
     color: black;
 }

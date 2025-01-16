@@ -69,9 +69,8 @@
         </div>
     </div>
 </main>
-<script>(() => {
-    const dom = roots["%OS_ROOT"];
-    var expression = "0";
+<script>
+    let expression = "0";
     for (const button of dom.querySelectorAll("button")) {
         button.addEventListener("click", (e) => {
             if (expression === "INVALID" || expression === "0") expression = "";
@@ -99,4 +98,4 @@
             dom.querySelector("span").innerText = expression || "0";
         });
     }
-})();</script>
+</script>

@@ -48,13 +48,12 @@
 </main>
 
 <!-- JS -->
-<script>(() => {
-    const dom = roots["%OS_ROOT"];
-    if (!db.use_indexed) dom.getElementById("local").checked = true;
-    dom.getElementById("cancel").addEventListener("click", () => kill_app("%OS_ROOT"));
-    dom.getElementById("ok").addEventListener("click", () => {
-        db.set_backend(dom.getElementById("indexed").checked ? "indexeddb" : "localstorage");
-        kill_app("%OS_ROOT");
-        exe.launch("sys/settings/reload");
+<script>
+    if (await oscall("db.get_backend") === "localstorage") dom.getElementById("local").checked = true;
+    dom.getElementById("cancel").addEventListener("click", async () => await oscall("app.kill"));
+    dom.getElementById("ok").addEventListener("click", async () => {
+        await oscall("db.set_backend", dom.getElementById("indexed").checked ? "indexeddb" : "localstorage")
+        await oscall("app.kill")
+        await oscall("app.run", "sys/settings/reload");
     });
-})();</script>
+</script>
