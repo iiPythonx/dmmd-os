@@ -21,6 +21,10 @@ main {
 main > article {
     position: absolute;
 
+    /* Enable resizing */
+    overflow: auto;
+    resize: both;
+
     /* Window styling */
     background-color: #c0c0c0;
     border-width: 2px;
@@ -65,6 +69,7 @@ footer {
     display: flex;
     height: 32px;
     background-color: #c0c0c0;
+    z-index: 10;
 }
 footer > button {
     font-weight: bold;

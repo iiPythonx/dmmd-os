@@ -68,6 +68,7 @@
         border-color: black gray gray black;
     }
     input {
+        flex: 1;
         border: none !important;
         letter-spacing: -1px;
     }
@@ -123,3 +124,18 @@
     <iframe id = "content"></iframe>
 </main>
 
+<script>
+    dom.querySelector("input").addEventListener("keyup", async (e) => {
+        if (e.key !== "Enter") return;
+
+        // Process target URL
+        let site_target = e.target.value;
+        if (!site_target.startsWith("http")) site_target = `https://${site_target}`;
+        e.target.value = site_target;
+
+        // Send off request
+        const response = await fetch(`http://localhost:8001/ie/${btoa(site_target)}`);
+        dom.querySelector("iframe").srcdoc = await response.text();
+        e.target.value = response.headers.get("X-New-Url");
+    });
+</script>
