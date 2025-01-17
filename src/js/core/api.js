@@ -36,8 +36,7 @@ function attach_api_to_shadow_dom(shadow_dom) {
                 break;
             case "app.run":
                 if (!args) return;
-                exe.launch(args[0]);
-                respond();
+                respond(exe.launch(args[0]));
                 break;
             case "app.error":
                 if (!args.length === 2) return;
@@ -49,6 +48,11 @@ function attach_api_to_shadow_dom(shadow_dom) {
                 break;
             case "app.list_all":
                 respond(exe.executables);
+                break;
+            case "app.allow_overflow":
+                if (!args) return;
+                app.style.overflow = args[0] ? "visible" : "auto";
+                respond();
                 break;
             case "file.list":
                 if (!args) return;

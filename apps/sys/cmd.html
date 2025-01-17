@@ -54,7 +54,6 @@
         date: (args) => push_line(new Date()),
         start: async (args) => {
             if (!args.length) return push_line("start: nothing specified to launch")
-            if (!exe.executables[args[0]]) return push_line("start: non-existant executable specified")
             await oscall("app.run", args[0]);
         },
         exit: async (args) => await oscall("app.kill")

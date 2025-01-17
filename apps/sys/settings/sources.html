@@ -114,7 +114,7 @@
         }
 
         async load_sources() {
-            this.sources = await oscall("db.get", "app-sources")
+            this.sources = await oscall("db.get", "app-sources");
             if (this.sources.constructor !== Array) return console.error("[Sources] Something fucked up and I don't like it.");
             this.draw_sources();
         }

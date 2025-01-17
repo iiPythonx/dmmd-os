@@ -72,8 +72,10 @@
             dom.querySelector("input").value = item;
         });
     }
-    dom.querySelector("button").addEventListener("click", (e) => {
-        e.currentTarget.querySelector("div").classList.toggle("hidden");
+    dom.querySelector("button").addEventListener("click", async (e) => {
+        const div = e.currentTarget.querySelector("div");
+        div.classList.toggle("hidden");
+        await oscall("app.allow_overflow", !div.classList.contains("hidden"));
     });
     dom.querySelector("input").addEventListener("keydown", async (e) => {
         if (e.key === "Enter" && e.currentTarget.value) {
