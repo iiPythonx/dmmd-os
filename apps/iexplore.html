@@ -134,8 +134,7 @@
         e.target.value = site_target;
 
         // Send off request
-        const response = await fetch(`http://localhost:8001/ie/${btoa(site_target)}`);
+        const response = await fetch(`http://localhost:8001/ie/${site_target.split("//")[1]}`);
         dom.querySelector("iframe").srcdoc = await response.text();
-        e.target.value = response.headers.get("X-New-Url");
     });
 </script>
