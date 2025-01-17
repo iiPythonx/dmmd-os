@@ -62,6 +62,13 @@
     section:last-child {
         flex: 1;
     }
+    li[data-path] {
+        cursor: pointer;
+    }
+    li[data-path].selected {
+        color: white;
+        background-color: #010080;
+    }
     ul {
         list-style: none;
     }
@@ -84,13 +91,7 @@
                 <li><i class = "icon icon-my-computer"></i> My Computer</li>
                 <ul>
                     <li><i class = "icon icon-hdd"></i> Root (/)</li>
-                    <ul>
-                        <li><i class = "icon icon-folder"></i> home</li>
-                        <ul>
-                            <li><i class = "icon icon-folder"></i> documents</li>
-                            <li><i class = "icon icon-folder"></i> downloads</li>
-                        </ul>
-                    </ul>
+                    <ul id = "tree"></ul>
                 </ul>
             </ul>
         </section>
@@ -114,12 +115,26 @@
 </main>
 
 <script>
-    async function build_tree(path) {
+    const tree = dom.getElementById("tree");
+    async function browse(path) {
+        console.log(await oscall("file.list", ...path.split("/")));
+    }
+    async function build_tree(path, parent) {
         const result = await oscall("file.list", ...path);
         for (const object in result) {
-            if (result[object].link) await build_tree(result[object].link.split("/"));
+            if (!result[object].link) continue;
+            const name = document.createElement("li");
+            const item = document.createElement("ul");
+            name.innerHTML = `<i class = "icon icon-folder"></i> ${object}`;
+            name.setAttribute("data-path", path.concat([object]).join("/"));
+            name.addEventListener("click", () => {
+                for (const _ of dom.querySelectorAll(".selected")) _.classList.remove("selected");
+                name.classList.add("selected");
+                browse(name.getAttribute("data-path"));
+            });
+            parent.append(name, item);
+            await build_tree(result[object].link.split("/"), item);
         }
-        console.log(result);
     }
-    build_tree([]);
+    build_tree([], tree);
 </script>
