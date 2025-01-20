@@ -9,7 +9,7 @@ const api = {
     },
     db: {
         target: db,  // Exposed from database.js
-        methods: ["set", "get", "set_backend", "get_backend"]
+        methods: ["set", "get", "set_core", "get_core", "set_backend", "get_backend"]
     },
     app: {
         target: {

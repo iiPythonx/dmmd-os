@@ -1,5 +1,96 @@
 ! name:  Settings
 ! icon:  settings
 ! title: OS Settings
+! size:  300x200
 
-<p style = "margin: 10px;">This will work eventually.</p>
+<style>
+    main {
+        margin: 10px;
+    }
+    .window-body {
+        padding: 10px;
+    }
+    .indent {
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+<main style = "margin: 10px;">
+    <menu role = "tablist">
+        <li role = "tab" aria-selected = "true"><a href = "#tabs">General</a></li>
+        <li role = "tab"><a href = "#tabs">Boot</a></li>
+        <li role = "tab"><a href = "#tabs">Control Panel</a></li>
+        <!-- <li role="tab"><a href="#tabs">Devices manager</a></li> -->
+        <!-- <li role="tab"><a href="#tabs">Hardware profiles</a></li> -->
+        <!-- <li role="tab"><a href="#tabs">Performance</a></li> -->
+    </menu>
+    <div class = "window" role = "tabpanel">
+        <div class = "window-body">
+        </div>
+    </div>
+    <section class = "field-row" style = "margin-top: 5px; justify-content: flex-end;">
+        <button class = "default" id = "ok">OK</button>
+        <button id = "cancel">Cancel</button>
+    </section>
+</main>
+
+<script>
+    const tabs = [
+        {
+            name: "General",
+            content: `
+                <span>System:</span>
+                <div class = "indent">
+                    <span>iiPython OS</span>
+                    <span>First Edition</span>
+                    <span>v2.1</span>
+                </div>
+                <br>
+                <span>Computer:</span>
+                <div class = "indent">
+                    <span>Database: <b>IndexedDB</b></span>
+                    <span>Embedded: <b>No</b></span>
+                </div>
+            `,
+            callback: () => {
+
+            }
+        },
+        {
+            name: "Boot",
+            content: `
+                <input type = "checkbox" id = "skip-boot">
+                <label for = "skip-boot">Skip boot sequence</label>
+                <br>
+                <span>To change database options, run the setup wizard.</span>
+            `,
+            callback: async () => {
+                dom.querySelector("input").checked = Boolean(await oscall("db.get_core", "skip_boot"));
+                dom.querySelector("input").addEventListener("change", async (e) => {
+                    await oscall("db.set_core", "skip_boot", +e.target.checked);
+                });
+            }
+        },
+        {
+            name: "Control Panel",
+            content: `
+                <span>stuff</span>
+            `
+        }
+    ]
+    for (const li of dom.querySelectorAll("li")) {
+        li.addEventListener("click", () => {
+            for (const li of dom.querySelectorAll("li")) li.removeAttribute("aria-selected");
+            li.setAttribute("aria-selected", "true");
+            const tab = tabs.filter(x => x.name === li.querySelector("a").innerText)[0];
+            dom.querySelector(".window-body").innerHTML = tab.content;
+            if (tab.callback) tab.callback();
+        });
+    }
+
+    // Handle buttons
+    dom.getElementById("cancel").addEventListener("click", () => oscall("app.kill"));
+    dom.getElementById("ok").addEventListener("click", () => oscall("app.kill"));
+</script>
