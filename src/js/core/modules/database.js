@@ -13,7 +13,6 @@ class Database {
         }
 
         // Handle specific drivers
-        this.type = 3;
         if (this.type === 2) {
             const idb = window.indexedDB.open("iiPythonOS", 1);
             idb.onerror = (event) => {
