@@ -3,37 +3,40 @@
 ! title: Sources
 
 <style>
-    * {
-        color: black;
-    }
-    fieldset {
-        margin: 10px;
-    }
-    div {
-        margin-top: 10px;
-    }
-    th, td {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
     .ok {
         color: green;
     }
     .error {
         color: red;
     }
+    main {
+        margin: 5px;
+    }
+    table {
+        width: 100%;
+    }
+    tbody:before {
+        line-height: 0px;
+        content: "\200C";
+        display: block;
+    }
+    section {
+        margin-top: 10px;
+        justify-content: flex-end;
+    }
 </style>
 
-<fieldset>
-    <legend>Source List</legend>
-    <table></table>
-    <div>
+<main>
+    <div class = "sunken-panel">
+        <table class = "interactive"></table>
+    </div>
+    <section class = "field-row">
         <button id = "add">+</button>
         <button id = "move-up">↑</button>
         <button id = "move-down">↓</button>
         <button id = "remove">-</button>
-    </div>
-</fieldset>
+    </section>
+</main>
 
 <script>
     class SourceHandler {
@@ -79,22 +82,23 @@
 
         async draw_sources() {
             dom.querySelector("table").innerHTML = `
-                <tr>
-                    <th></th>
-                    <th>Source</th>
-                    <th>App Count</th>
-                    <th>Status</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>App Count</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
             `;
             for (const source of this.sources) {
                 const source_element = document.createElement("tr");
                 source_element.innerHTML = `
-                    <td><input type = "checkbox"></td>
-                    <td class = "url">${source.url}</td>
+                    <td class = "url"><input type = "checkbox" id = "${source.url.split('//')[1]}"><label for = "${source.url.split('//')[1]}">${source.url}</label></td>
                     <td>${source.apps || 'N/A'}</td>
                     ${source.status ? "<td class = 'ok'>OK</td>" : "<td class = 'error'>ERROR</td>"}
                 `;
-                dom.querySelector("table").appendChild(source_element);
+                dom.querySelector("tbody").appendChild(source_element);
             }
             await oscall("db.set", "app-sources", this.sources);
         }

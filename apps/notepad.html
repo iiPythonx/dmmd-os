@@ -15,11 +15,3 @@
     }
 </style>
 <textarea>The quick brown iiPython jumps over the lazy DmmD.</textarea>
-<button>click me to open the file thingy</button>
-
-<script>
-    dom.querySelector("button").addEventListener("click", async () => {
-        const response = await oscall("file.save_as", "testing.txt", "/home", "HELLO MOTHERFUCKING WORLD!!!!");
-        console.log(response)
-    });
-</script>

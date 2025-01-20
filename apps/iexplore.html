@@ -1,12 +1,11 @@
 ! name:  Internet Explorer
 ! icon:  iexplore
 ! title: Internet Explorer
-! size:  650x310
 
 <style>
     main {
         gap: 2px;
-        height: 100%;
+        height: calc(100% - 4px);
         padding: 2px;
         display: flex;
         flex-direction: column;
@@ -25,9 +24,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding: 3px 0px 3px 0px !important;
     }
     button:not(:active) {
-        border: 2px solid transparent !important;
+        box-shadow: none;
     }
     #heading {
         border: 1px solid gray;
@@ -35,7 +35,6 @@
         flex-direction: column;
     }
     #heading > div:first-child {
-        gap: 10px;
         display: flex;
         align-items: center;
         border-bottom: 1px solid gray;
@@ -60,80 +59,39 @@
         border-style: solid;
         border-color: black white white black;
     }
-    #content {
-        flex: 1;
-        background-color: white;
-        border-width: 2px;
-        border-style: solid;
-        border-color: black gray gray black;
-    }
-    #toolbar {
-        gap: 2px;
-        display: flex;
-    }
-    #toolbar > div {
-        color: black;
-        gap: 4px;
-        display: flex;
-        align-items: center;
-        padding-left: 2px;
-        border-width: 2px;
-        border-style: solid;
-        background-color: #b8b8b8;
-        border-color: gray white white gray;
-    }
-    #toolbar > div:first-child {
-        flex: 1;
-    }
-    #toolbar > div:not(:first-child):not(:last-child) {
-        width: 30px;
-    }
-    #toolbar > div:last-child {
-        width: 55%;
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
     }
     input {
         flex: 1;
+        outline: none;
         border: none !important;
-        letter-spacing: -1px;
+    }
+    .sunken-panel {
+        flex: 1;
+        overflow: hidden !important;
+    }
+    .status-bar-field {
+        display: flex;
+        align-items: center;
+        gap: 5px;
     }
 </style>
 
 <main>
     <section id = "heading">
         <div>
-            <button id = "back" disabled>
-                <i class = "icon-big">←</i>
-                Back
-            </button>
-            <button id = "forward" disabled>
-                <i class = "icon-big">→</i>
-                Forward
-            </button>
-            <button id = "stop" disabled>
-                <i class = "icon-big icon-stop"></i>
-                Stop
-            </button>
-            <button id = "refresh">
-                <i class = "icon-big">↻</i>
-                Refresh
-            </button>
-            <button id = "home">
-                <i class = "icon-big icon-home"></i>
-                Home
-            </button>
+            <button id = "back"><i class = "icon-big">←</i> Back</button>
+            <button id = "forward"><i class = "icon-big">→</i> Forward</button>
+            <button id = "stop"><i class = "icon-big icon-stop"></i> Stop</button>
+            <button id = "refresh"><i class = "icon-big">↻</i> Refresh</button>
+            <button id = "home"><i class = "icon-big icon-home"></i> Home</button>
             <div class = "line"></div>
-            <button id = "search">
-                <i class = "icon-big icon-web-search"></i>
-                Search
-            </button>
-            <button disabled>
-                <i class = "icon-big icon-favorites"></i>
-                Favorites
-            </button>
-            <button disabled>
-                <i class = "icon-big icon-history"></i>
-                History
-            </button>
+            <button id = "search"><i class = "icon-big icon-web-search"></i> Search</button>
+            <button><i class = "icon-big icon-favorites"></i> Favorites</button>
+            <button><i class = "icon-big icon-history"></i> History</button>
         </div>
         <div>
             <span>Address</span>
@@ -145,14 +103,16 @@
             <span>Links</span>
         </div>
     </section>
-    <iframe id = "content"></iframe>
-    <section id = "toolbar">
-        <div id = "status">Connecting...</div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div><i class = "icon icon-iexplore"></i> Internet zone</div>
-    </section>
+    <div class = "sunken-panel">
+        <iframe id = "content"></iframe>
+    </div>
+    <div class = "status-bar">
+        <p class = "status-bar-field" id = "status">Connecting...</p>
+        <p class = "status-bar-field"></p>
+        <p class = "status-bar-field"></p>
+        <p class = "status-bar-field"></p>
+        <p class = "status-bar-field"><i class = "icon icon-iexplore"></i> Internet zone</p>
+    </div>
 </main>
 
 <script>

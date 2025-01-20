@@ -1,15 +1,14 @@
-/* Right now this file is rather empty,
-    TODO: migrate all icons into this file */
-
 .icon {
     width: 16px;
     height: 16px;
+    aspect-ratio: 1/1;
     display: inline-block;
     background-size: cover;
 }
 .icon-big {
     width: 32px;
     height: 32px;
+    aspect-ratio: 1/1;
     display: inline-block;
     background-size: cover;
 }

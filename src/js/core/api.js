@@ -54,29 +54,6 @@ function attach_api_to_shadow_dom(shadow_dom) {
                 app.style.overflow = args[0] ? "visible" : "auto";
                 respond();
                 break;
-            case "file.list":
-                if (!args) return;
-                respond(await file_api.list(args));
-                break;
-            // case "file.save_as":
-            //     if (!args.length === 3) return;
-
-            //     await new Promise((resolve) => {
-            //         window.on_save_as_confirmation = (location) => {
-            //             console.log(location);
-            //             resolve();
-            //             delete window.on_save_as_confirmation;
-            //         }
-            //         window_api.create("Save As", "folder", `
-            //             <span>${args[0]}</span>    
-            //             <span>${args[1]}</span>    
-            //             <span>${args[2]}</span>
-            //         `);
-            //         resolve();
-            //     });
-
-            //     respond();
-            //     break;
         }
     }, false);
 }

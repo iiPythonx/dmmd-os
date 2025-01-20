@@ -1,7 +1,9 @@
 * {
-    color: white;
+    color: black;
     margin: 0px;
-    font-family: monospace;
+    font-family: "Pixelated MS Sans Serif";
+    scrollbar-width: thin;
+    scrollbar-color: gray #f000;
 }
 html, body {
     height: 100%;
@@ -20,44 +22,10 @@ main {
 }
 main > article {
     position: absolute;
-
-    /* Enable resizing */
     overflow: auto;
     resize: both;
-
-    /* Window styling */
-    background-color: #c0c0c0;
-    border-width: 2px;
-    border-style: solid;
-    border-color: white black black white;
-}
-main > article > div {
-    height: calc(100% - 25px);
-}
-main > article header {
-    padding-left: 3px;
-    padding-right: 3px;
-    height: 20px;
     display: flex;
-    align-items: center;
-    gap: 1px;
-    user-select: none;
-    background: linear-gradient(to right, #1a0495, #1380d5);
-}
-main > article header h4 {
-    margin-left: 2px;
-    flex: 1;
-}
-main > article header button {
-    padding: 0px;
-    width: 18px;
-    height: 18px;
-    display: block;
-}
-main > article header button span {
-    top: -3px;
-    position: relative;
-    color: #000;
+    flex-direction: column;
 }
 
 /* Setup taskbar */
@@ -68,7 +36,7 @@ footer {
     align-items: center;
     display: flex;
     height: 32px;
-    background-color: #c0c0c0;
+    background-color: silver;
     z-index: 10;
 }
 footer > button {
@@ -83,11 +51,11 @@ footer > #tasklets {
     gap: 2px;
 }
 footer > span {
-    font-weight: bold;
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 10px;
     padding-right: 10px;
+    letter-spacing: 1px;
     border-width: 2px;
     border-style: solid;
     border-color: gray white white gray;
@@ -99,6 +67,11 @@ div.vertical-space {
     border-left: 1px solid gray;
     border-right: 1px solid white;
 }
+#tasklets > button {
+    gap: 5px;
+    display: flex;
+    align-items: center;
+}
 
 /* Start menu */
 .hidden {
@@ -106,13 +79,11 @@ div.vertical-space {
 }
 #start {
     z-index: 10;
-    background-color: #c0c0c0;
-    border-width: 2px;
-    border-style: solid;
-    border-color: white black black white;
-    bottom: 32px;
+    left: 8px;
+    bottom: 28px;
     display: flex;
     position: absolute;
+    min-width: 180px;
 }
 #start > div:first-child {
     position: relative;
@@ -129,6 +100,8 @@ div.vertical-space {
     white-space: nowrap;
     transform-origin: left;
     font-size: 22px;
+    color: white;
+    font-family: monospace;
 }
 #start > div:last-child {
     display: flex;
@@ -144,26 +117,33 @@ div.vertical-space {
     background-color: #010080;
 }
 #start button > div {
-    left: 100%;
+    left: calc(100% - 3px);
     width: 213px;
-    background-color: #c0c0c0;
     position: absolute;
 }
-
-/* Button styling */
-button {
-    color: #000;
-    height: fit-content;
-    background-color: #c0c0c0;
-    cursor: pointer;
+#start button {
+    padding: 0px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 12px;
+    padding-left: 2px;
+    box-shadow: none;
 }
-button.active {
-    font-weight: bold;
-    border-width: 2px;
-    border-style: solid;
-    border-color: black white white black;
-    background-color: #e2e2e2;
+#start hr {
+    border-top: 1px solid gray;
+    border-bottom: 1px solid white;
+}
+#menu-entries {
+    flex: 1;
+}
+
+/* Overrides */
+.title-bar-text {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    user-select: none;
+}
+.window-body {
+    flex: 1;
 }

@@ -19,6 +19,9 @@
         color: gray;
         font-size: 10px;
     }
+    section {
+        justify-content: flex-end;
+    }
 </style>
 
 <!-- Actual content! -->
@@ -41,10 +44,10 @@
         <br>
         <legend>If you're using DmmD's bootloader, select LocalStorage.</legend>
     </fieldset>
-    <div class = "button-list">
+    <section class = "field-row">
         <button id = "cancel">Cancel</button>
         <button id = "ok">OK</button>
-    </div>
+    </section>
 </main>
 
 <!-- JS -->
@@ -52,8 +55,8 @@
     if (await oscall("db.get_backend") === "localstorage") dom.getElementById("local").checked = true;
     dom.getElementById("cancel").addEventListener("click", async () => await oscall("app.kill"));
     dom.getElementById("ok").addEventListener("click", async () => {
-        await oscall("db.set_backend", dom.getElementById("indexed").checked ? "indexeddb" : "localstorage")
-        await oscall("app.kill")
+        await oscall("db.set_backend", dom.getElementById("indexed").checked ? "indexeddb" : "localstorage");
         await oscall("app.run", "sys/settings/reload");
+        await oscall("app.kill");
     });
 </script>

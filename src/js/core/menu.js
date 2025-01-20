@@ -54,7 +54,7 @@ class ExecutableHandler {
             console.error("Attempted to launch a non-existant executable:", name);
             return window_api.error("Not found", "The specified executable doesn't exist.");
         }
-        window_api.create(exec.title, exec.icon, exec.html, exec.size);
+        window_api.create(exec);
     }
 
     find(name) {
@@ -96,6 +96,7 @@ function build_menu(structure, parent) {
                 if (active) return;
                 active = true;
                 const child_list = document.createElement("div");
+                child_list.classList.add("window");
                 build_menu(item.exec, child_list);
                 button.appendChild(child_list);
             });
@@ -124,8 +125,6 @@ const start_menu_struct = [
             exe.find("iexplore")
         ]
     },
-    exe.find("menu/favorites"),
-    exe.find("menu/documents"),
     {
         name: "Settings",
         icon: "settings",
@@ -136,12 +135,11 @@ const start_menu_struct = [
             exe.find("sys/settings/sources"),
         ]
     },
-    exe.find("menu/find"),
     exe.find("menu/help"),
     exe.find("menu/run"),
     { type: "space" },
     {
-        name: "Back to Bootloader...",
+        name: "Shut down...",
         icon: "shutdown",
         exec: "shutdown"
     }
