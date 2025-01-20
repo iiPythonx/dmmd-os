@@ -116,7 +116,7 @@
 </main>
 
 <script>
-    const sources = (await oscall("db.get", "app-sources")).filter(source => source.status);
+    const sources = (await oscall("db.get", "app_sources")).filter(source => source.status);
     if (!sources) {
         // Should never happen but eh
         dom.getElementById("status").innerText = "No connection!";
