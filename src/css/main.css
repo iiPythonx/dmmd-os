@@ -84,6 +84,7 @@ div.vertical-space {
     display: flex;
     position: absolute;
     min-width: 180px;
+    user-select: none;
 }
 #start > div:first-child {
     position: relative;
