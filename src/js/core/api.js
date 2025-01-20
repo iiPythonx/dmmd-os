@@ -27,7 +27,7 @@ function attach_api_to_shadow_dom(shadow_dom) {
                 respond(db.set(args[0], JSON.stringify(args[1])));
                 break;
             case "db.get_backend":
-                respond(db.use_indexed ? "indexeddb" : "localstorage");
+                respond(db.get_backend());
                 break;
             case "db.set_backend":
                 if (!args) return;

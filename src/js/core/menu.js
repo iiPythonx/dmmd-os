@@ -8,7 +8,7 @@ class ExecutableHandler {
 
     async load_executables() {
         if (!this.sources.length) {
-            const sources = await db.get("app-sources");
+            const sources = await db.get("app_sources");
             this.sources = sources ? JSON.parse(sources) : [
                 {
                     url: "https://os.iipython.dev",
@@ -35,17 +35,14 @@ class ExecutableHandler {
             }
         }
 
-        db.set("app-sources", JSON.stringify(this.sources));
+        db.set("app_sources", JSON.stringify(this.sources));
         if (source_failure) {
             if (this.executables["sys/settings/sources"]) exe.launch("sys/settings/sources");
             else window_api.error("Source problem", "No source connections were successful, as a result no apps are available.");
         }
 
         // Handle first boot (if loading was successful)
-        if (!+(await db.get("core.first_boot")) && this.executables["sys/firstboot"]) {
-            exe.launch("sys/firstboot");
-            db.set("core.first_boot", 1);
-        }
+        if (!+(await db.get("first_boot")) && this.executables["sys/firstboot"]) exe.launch("sys/firstboot");
     }
 
     launch(name) {
