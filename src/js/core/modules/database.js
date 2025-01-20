@@ -48,11 +48,11 @@ class Database {
 
     // Get/set from database (default, localStorage)
     set(key, value) {
-        localStorage.setItem(key, value);
+        localStorage.setItem(key, JSON.stringify(value));
     }
 
     async get(key) {
-        return localStorage.getItem(key);
+        return JSON.parse(localStorage.getItem(key));
     }
 
     // Get/set the backend type

@@ -1,6 +1,29 @@
 // Copyright (c) 2025 iiPython
 // This file contains the public OS API, usable from within an app's JS environment.
 
+// API definition
+const api = {
+    file: {
+        target: file_api,  // Exposed from files.js
+        methods: ["list", "read", "write"]
+    },
+    db: {
+        target: db,  // Exposed from database.js
+        methods: ["set", "get", "set_backend", "get_backend"]
+    },
+    app: {
+        target: {
+            "run": (_, executable) => exe.launch(executable),
+            "error": (_, title, message) => window_api.error(title, message),
+            "kill": (app) => window_api.kill(app.getAttribute("window-id")),
+            "list_all": (_) => exe.executables,
+            "allow_overflow": (app, value) => app.style.overflow = value ? "visible" : "auto"
+        },
+        methods: ["run", "error", "kill", "list_all", "allow_overflow"],
+        attach_app: true
+    }
+}
+
 // Start listening
 function attach_api_to_shadow_dom(shadow_dom) {
     shadow_dom.addEventListener("oscall", async (e) => {
@@ -17,43 +40,10 @@ function attach_api_to_shadow_dom(shadow_dom) {
         }
         
         // Begin matching functions
-        switch (e.detail.method) {
-            case "db.get":
-                if (!args) return;
-                respond(JSON.parse(await db.get(args[0])));
-                break;
-            case "db.set":
-                if (args.length !== 2) return;
-                respond(db.set(args[0], JSON.stringify(args[1])));
-                break;
-            case "db.get_backend":
-                respond(db.get_backend());
-                break;
-            case "db.set_backend":
-                if (!args) return;
-                db.set_backend(args[0]);
-                respond();
-                break;
-            case "app.run":
-                if (!args) return;
-                respond(exe.launch(args[0]));
-                break;
-            case "app.error":
-                if (!args.length === 2) return;
-                window_api.error(...args);
-                respond();
-                break;
-            case "app.kill":
-                window_api.kill(e.detail.from);
-                break;
-            case "app.list_all":
-                respond(exe.executables);
-                break;
-            case "app.allow_overflow":
-                if (!args) return;
-                app.style.overflow = args[0] ? "visible" : "auto";
-                respond();
-                break;
-        }
+        const [module, method, ...idc] = e.detail.method.split(".");
+        if (!(api[module] && api[module].methods.includes(method))) return respond(false);
+        let result = api[module].target[method](...(api[module].attach_app ? [app, ...args] : args));
+        if (result instanceof Promise) result = await result;
+        respond(result);
     }, false);
 }

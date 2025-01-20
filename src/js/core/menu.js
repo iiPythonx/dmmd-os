@@ -9,7 +9,7 @@ class ExecutableHandler {
     async load_executables() {
         if (!this.sources.length) {
             const sources = await db.get("app_sources");
-            this.sources = sources ? JSON.parse(sources) : [
+            this.sources = sources || [
                 {
                     url: "https://os.iipython.dev",
                     status: null,
@@ -35,7 +35,7 @@ class ExecutableHandler {
             }
         }
 
-        db.set("app_sources", JSON.stringify(this.sources));
+        db.set("app_sources", this.sources);
         if (source_failure) {
             if (this.executables["sys/settings/sources"]) exe.launch("sys/settings/sources");
             else window_api.error("Source problem", "No source connections were successful, as a result no apps are available.");

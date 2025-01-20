@@ -20,9 +20,9 @@
     async function submit() {
         const source_url = dom.querySelector("input").value;
         if (!evil_regex.test(source_url)) return await oscall("app.error", "Invalid Source URL", "Specified URL is invalid!");
-        const sources = await oscall("db.get", "app-sources");
+        const sources = await oscall("db.get", "app_sources");
         sources.push({ url: source_url, status: null, apps: null });
-        await oscall("db.set", "app-sources", sources);
+        await oscall("db.set", "app_sources", sources);
         if (window.on_source_added) window.on_source_added();
         await oscall("app.kill");
     }

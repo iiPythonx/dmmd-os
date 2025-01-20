@@ -100,7 +100,7 @@
                 `;
                 dom.querySelector("tbody").appendChild(source_element);
             }
-            await oscall("db.set", "app-sources", this.sources);
+            await oscall("db.set", "app_sources", this.sources);
         }
 
         move_source_up(source) {
@@ -118,7 +118,7 @@
         }
 
         async load_sources() {
-            this.sources = await oscall("db.get", "app-sources");
+            this.sources = await oscall("db.get", "app_sources");
             if (this.sources.constructor !== Array) return console.error("[Sources] Something fucked up and I don't like it.");
             this.draw_sources();
         }
