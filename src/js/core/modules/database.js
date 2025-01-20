@@ -4,13 +4,16 @@ const DATABASE_BACKENDS = ["localstorage", "indexeddb", "dmmd"];
 
 class Database {
     constructor() {
-        this.type = +localStorage.getItem("db_type");
+        this.type = +this.get_core("db_type");
+        if (window.parent !== window) this.type = 3;  // If we're in an iframe, assume DmmD
+
         if (!this.type) {
             this.type = 1;
-            localStorage.setItem("db_type", "1");
+            this.set_core("db_type", "1");
         }
 
         // Handle specific drivers
+        this.type = 3;
         if (this.type === 2) {
             const idb = window.indexedDB.open("iiPythonOS", 1);
             idb.onerror = (event) => {
@@ -43,6 +46,13 @@ class Database {
                     else this.on_db_loaded = process;
                 })
             }
+        } else if (this.type === 3) {
+
+            // DmmD API goes here
+            // TODO: all of it
+
+            this.set = (key, value) => null;
+            this.get = async (key) => null;
         }
     }
 
@@ -53,6 +63,16 @@ class Database {
 
     async get(key) {
         return JSON.parse(localStorage.getItem(key));
+    }
+
+    // Get/set for core data
+    set_core(key, value) {
+        if (window.parent !== window) return;  // No DmmD API yet
+        localStorage.setItem(key, value);
+    }
+    get_core(key) {
+        if (window.parent !== window) return null;  // Same as above.
+        return localStorage.getItem(key);
     }
 
     // Get/set the backend type

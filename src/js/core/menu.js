@@ -42,7 +42,7 @@ class ExecutableHandler {
         }
 
         // Handle first boot (if loading was successful)
-        if (!+(await db.get("first_boot")) && this.executables["sys/firstboot"]) exe.launch("sys/firstboot");
+        if (!+(await db.get("first_boot")) && this.executables["sys/firstboot"] && db.type !== 3) exe.launch("sys/firstboot");
     }
 
     launch(name) {
@@ -119,7 +119,8 @@ const start_menu_struct = [
             },
             exe.find("sys/cmd"),
             exe.find("cooldude"),
-            exe.find("iexplore")
+            exe.find("iexplore"),
+            exe.find("explorer")
         ]
     },
     {

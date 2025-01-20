@@ -43,7 +43,7 @@
             update(0);
         },
         init: async () => {
-            if (+localStorage.getItem("skip_boot")) return bios.boot();
+            if (window.parent === window && +localStorage.getItem("skip_boot")) return bios.boot();
             
             // Handle version
             const version = document.querySelector(`meta[name = "iipython-version"]`).getAttribute("content");
@@ -76,7 +76,13 @@
             ]
             for (const expression of expressions) expression.version = expression.regex.exec(navigator.userAgent);
             const browser = (expressions.filter(e => e.version) || [{ name: "Unknown", engine: "Unknown", version: [null, "..."] }])[0];
-            const storage = await navigator.storage.estimate();
+
+
+            let storage = { quota: 2695091978, usage: 858993459 };  // Random hardcoded values (800MB/2.51GB)
+            try {
+                throw new Error();
+                storage = await navigator.storage.estimate();
+            } catch {}
             
             // Start dumping information
             const date_config = { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };

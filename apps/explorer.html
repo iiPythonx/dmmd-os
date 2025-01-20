@@ -1,0 +1,74 @@
+! name:  Explorer
+! icon:  folder
+! title: Explorer
+
+<style>
+    main {
+        padding: 5px;
+        display: flex;
+        gap: 5px;
+        height: calc(100% - 10px);
+    }
+    section:last-child {
+        flex: 1;
+    }
+    table {
+        width: 100%;
+    }
+</style>
+
+<main>
+    <section>
+        <ul class = "tree-view">
+            <li>
+                <details open>
+                    <summary>My Computer</summary>
+                    <ul>
+                        <li>
+                            <details open>
+                                <summary>System Root</summary>
+                                <ul>
+                                    <li>
+                                        <details open>
+                                            <summary>home</summary>
+                                            <ul>
+                                                <li>Documents</li>
+                                                <li>Downloads</li>
+                                            </ul>
+                                        </details>
+                                    </li>
+                                </ul>
+                            </details>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    </section>
+    <section class = "sunken-panel">
+        <table class = "interactive">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>somefile.txt</td>
+                    <td>0KB</td>
+                    <td>Text document</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<script>
+    function recurse() {
+
+    }
+    recurse("/");
+    console.log(await oscall("file.list", "/"));
+</script>

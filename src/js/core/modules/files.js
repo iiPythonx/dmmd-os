@@ -4,7 +4,7 @@ const file_api = {
     // Handle fetching the filesystem from the database
     fetch: async () => {
         if (file_api.files) return file_api.files;
-        let raw_data = JSON.parse((await db.get("files")) || null);
+        let raw_data = await db.get("files")
         if (!(raw_data instanceof Object)) {
             raw_data = {    
                 "": {
@@ -20,7 +20,7 @@ const file_api = {
                     }
                 }
             };
-            db.set("files", JSON.stringify(raw_data));
+            db.set("files");
         }
         file_api.files = raw_data;
         return raw_data;
@@ -48,7 +48,7 @@ const file_api = {
         const files = await file_api.fetch();
         files[data[1]][data[2]] = { content: content, size: content.length };
         file_api.files = files;
-        db.set("files", JSON.stringify(files));
+        db.set("files", files);
         return true;
     }
 };
