@@ -3,7 +3,7 @@
 ### Running the backend
 
 ```sh
-PUBLIC_URL=https://os.iipython.dev python3 -m backend
+ENV=prod python3 -m backend
 ```
 
 ### Running the frontend

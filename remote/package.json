@@ -1,0 +1,9 @@
+{
+  "name": "iipython-remote",
+  "description": "HTTP remote fetching service for iiPython OS.",
+  "version": "0.0.1",
+  "author": "iiPython <ben@iipython.dev>",
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}
