@@ -1,6 +1,6 @@
 (async () => {
     for (const style of document.querySelectorAll("style:not(#bios-css)")) style.sheet.disabled = true;
-    const iframe = window.parent === window;
+    const iframe = window.parent !== window;
     const settings = {
         skip_boot:  iframe ? false : +localStorage.getItem("skip_boot"),
         skip_load:  iframe ? false : +localStorage.getItem("skip_loading"),
@@ -107,7 +107,7 @@
                     { name: "Web Engine",         value: `${browser.name} ${browser.version[1].split(".")[0]} / ${browser.engine}` },
                     { name: "System Time",        value: "", table: true, callback: (el, cb) => {
                         el.innerText = new Date().toLocaleString("en-US", date_config);
-                        if (!settings.live_clock) setTimeout(() => cb(el, cb), 1000);
+                        if (settings.live_clock) setTimeout(() => cb(el, cb), 1000);
                     } },
                     { name: "Timezone",           value: Intl.DateTimeFormat().resolvedOptions().timeZone }
                 ]
