@@ -40,9 +40,6 @@ class ExecutableHandler {
             if (this.executables["sys/settings/sources"]) exe.launch("sys/settings/sources");
             else window_api.error("Source problem", "No source connections were successful, as a result no apps are available.");
         }
-
-        // Handle first boot (if loading was successful)
-        if (!+(await db.get("first_boot")) && this.executables["sys/firstboot"] && db.type !== 3) exe.launch("sys/firstboot");
     }
 
     launch(name) {
@@ -127,7 +124,6 @@ const start_menu_struct = [
         name: "Settings",
         icon: "settings",
         exec: [
-            exe.find("sys/firstboot"),
             exe.find("sys/settings/main"),
             exe.find("sys/settings/menu"),
             exe.find("sys/settings/sources"),
