@@ -124,7 +124,7 @@
     }
 
     // Fetch first source
-    const source = sources[0], iframe = dom.querySelector("iframe"), input = dom.querySelector("input");
+    const iframe = dom.querySelector("iframe"), input = dom.querySelector("input");
     dom.getElementById("status").innerText = "Connected!";
 
     // Handle input processing
@@ -133,7 +133,7 @@
         input.value = site_target;
     
         // Send off request
-        const response = await fetch(`${source.url}/ie/${site_target.split("//")[1]}`);
+        const response = await fetch(`https://remote.iipython.dev/${site_target.split("//")[1]}`);
         iframe.srcdoc = await response.text();
     }
 
