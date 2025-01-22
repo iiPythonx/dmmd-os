@@ -1,18 +1,12 @@
 # iiPythonx / OS
 
-### Running the backend
-
-```sh
-ENV=prod python3 -m backend
-```
-
-### Running the frontend
+### Running
 
 ```sh
 nova serve --reload
 ```
 
-### Building the frontend
+### Building
 
 ```sh
 nova build
