@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 # Handle loading apps
-apps_path = Path(__file__).parents[1] / "apps"
+apps_path = Path(__file__).parents[1] / "src/apps"
 apps = {}
 for file in apps_path.rglob("*"):
     if not file.is_file():
