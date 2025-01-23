@@ -92,9 +92,10 @@
                 <tbody></tbody>
             `;
             for (const source of this.sources) {
+                const id = source.url.split("//")[1];
                 const source_element = document.createElement("tr");
                 source_element.innerHTML = `
-                    <td class = "url"><input type = "checkbox" id = "${source.url.split('//')[1]}"><label for = "${source.url.split('//')[1]}">${source.url}</label></td>
+                    <td class = "url"><input type = "checkbox" id = "${id}"><label for = "${id}">${source.url === "https://default" ? "(default)" : source.url}</label></td>
                     <td>${source.apps || 'N/A'}</td>
                     ${source.status ? "<td class = 'ok'>OK</td>" : "<td class = 'error'>ERROR</td>"}
                 `;

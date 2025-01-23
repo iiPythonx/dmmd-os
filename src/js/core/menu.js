@@ -11,12 +11,7 @@ class ExecutableHandler {
             const sources = await db.get("app_sources");
             this.sources = sources || [
                 {
-                    url: "https://os.iipython.dev",
-                    status: null,
-                    apps: null
-                },
-                {
-                    url: "http://localhost:8001",
+                    url: "https://default",
                     status: null,
                     apps: null
                 }
@@ -26,7 +21,7 @@ class ExecutableHandler {
         let source_failure = false;
         for (const origin of this.sources) {
             try {
-                const apps = await (await fetch(`${origin.url}/apps.json`)).json();
+                const apps = await (await fetch(`${origin.url === "https://default" ? "" : origin.url}/apps.json`)).json();
                 origin.status = true, origin.apps = Object.keys(apps).length;
                 this.executables = { ...this.executables, ...apps };
             } catch {
